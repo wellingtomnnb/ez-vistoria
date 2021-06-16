@@ -1,4 +1,4 @@
-import 'package:ez_vistors/HomePage.dart';
+import 'file:///C:/Users/Wellington/AndroidStudioProjects/ez_vistors/lib/Pages/HomePage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

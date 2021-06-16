@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:ez_vistors/CriarPage.dart';
-import 'package:ez_vistors/VistoriasPage.dart';
+import 'file:///C:/Users/Wellington/AndroidStudioProjects/ez_vistors/lib/Pages/CriarPage.dart';
+import 'file:///C:/Users/Wellington/AndroidStudioProjects/ez_vistors/lib/Pages/VistoriasPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

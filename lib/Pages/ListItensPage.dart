@@ -1,5 +1,5 @@
-import 'package:ez_vistors/CriarItemPage.dart';
-import 'package:ez_vistors/ItemPage.dart';
+import 'file:///C:/Users/Wellington/AndroidStudioProjects/ez_vistors/lib/Pages/CriarItemPage.dart';
+import 'file:///C:/Users/Wellington/AndroidStudioProjects/ez_vistors/lib/Pages/ItemPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

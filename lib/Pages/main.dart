@@ -1,5 +1,6 @@
-import 'package:ez_vistors/LoginPage.dart';
-import 'package:ez_vistors/VistoriasPage.dart';
+import 'file:///C:/Users/Wellington/AndroidStudioProjects/ez_vistors/lib/Pages/LoginPage.dart';
+import 'file:///C:/Users/Wellington/AndroidStudioProjects/ez_vistors/lib/Pages/VistoriasPage.dart';
+import 'package:ez_vistors/Pages/SobrePage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +16,7 @@ void main(){
       '/home': (context) => HomePage(),
       '/vistorias': (context) => VistoriasPage(),
       '/criar': (context) => CriarPage(),
+      '/sobre': (context) => SobrePage(),
     },
   ));
 }

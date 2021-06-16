@@ -1,4 +1,5 @@
-import 'package:ez_vistors/HomePage.dart';
+import 'file:///C:/Users/Wellington/AndroidStudioProjects/ez_vistors/lib/Pages/HomePage.dart';
+import 'package:ez_vistors/Pages/SobrePage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -16,14 +17,23 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         title: Text("Login"),
       ),
-      body: Center(
-        child: RaisedButton(
+      body: Column(
+        children:[ RaisedButton(
           child: Text('Entrar'),
           onPressed: () {
             Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (context) => HomePage()));
           },
         ),
+        RaisedButton(
+          child: Text('Sobre'),
+          onPressed: () {
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => SobrePage())
+            );
+          }
+      )]
+
       ),
     );
   }
