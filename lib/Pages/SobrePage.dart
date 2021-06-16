@@ -9,7 +9,7 @@ class SobrePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-        title: Text("Login"),
+        title: Text("Sobre"), backgroundColor: Colors.orange[900],
     ),
     body: Padding(padding: EdgeInsets.all(10),
       child: Center(
