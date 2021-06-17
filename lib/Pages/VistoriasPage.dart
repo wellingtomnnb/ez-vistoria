@@ -28,7 +28,7 @@ class _VistoriasPageState extends State<VistoriasPage> {
               color: Colors.grey[900],
               child: new Column(
                 children: <Widget>[
-                  FormField(builder: ,),
+
                   ListView(
                     padding: const EdgeInsets.all(8),
                     children: <Widget>[
