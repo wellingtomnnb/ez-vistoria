@@ -26,20 +26,29 @@ class _VistoriasPageState extends State<VistoriasPage> {
           children: [
             Container(
               color: Colors.grey[900],
-              child: ListView(
+              child: new Column(
                 children: <Widget>[
-                  ListTile(
-                    leading: Icon(Icons.map),
-                    title: Text('Map'),
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.photo_album),
-                    title: Text('Album'),
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.phone),
-                    title: Text('Phone'),
-                  ),
+                  FormField(builder: ,),
+                  ListView(
+                    padding: const EdgeInsets.all(8),
+                    children: <Widget>[
+                      Container(
+                        height: 50,
+                        color: Colors.amber[600],
+                        child: const Center(child: Text('Entry A')),
+                      ),
+                      Container(
+                        height: 50,
+                        color: Colors.amber[500],
+                        child: const Center(child: Text('Entry B')),
+                      ),
+                      Container(
+                        height: 50,
+                        color: Colors.amber[100],
+                        child: const Center(child: Text('Entry C')),
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),
