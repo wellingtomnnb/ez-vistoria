@@ -62,18 +62,16 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       style: ButtonStyle(
                           foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.white),
+                              MaterialStateProperty.all<Color>(Colors.white),
                           backgroundColor: MaterialStateProperty.all<Color>(
                               Colors.orange[900]),
                           shape:
-                          MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.all(Radius.circular(50)),
-                                  side: BorderSide(color: Colors.red)))),
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(50)),
+                                      side: BorderSide(color: Colors.red)))),
                       onPressed: () {
-                        print(nameController.text);
-                        print(passwordController.text);
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
                             builder: (context) => HomePage()));
                       },
