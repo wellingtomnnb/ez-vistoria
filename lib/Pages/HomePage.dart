@@ -29,6 +29,11 @@ class _HomePageState extends State<HomePage> {
             leading: Icon(Icons.home),
             title: Text("Item1"),
             onTap: () {},
+          ),
+          ListTile(
+            leading: Icon(Icons.power_settings_new),
+            title: Text("Sair"),
+            onTap: () {Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginPage()));},
           )
         ],
         ),
