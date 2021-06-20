@@ -1,7 +1,9 @@
 import 'package:ez_vistors/Models/Vistorias.dart';
+import 'package:ez_vistors/Pages/ItemPage.dart';
 import 'package:ez_vistors/Theme/Cores.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 
 class ListComodoPage extends StatefulWidget {
   final Vistoria vistoria;
@@ -14,14 +16,15 @@ class ListComodoPage extends StatefulWidget {
 
 class _ListComodoPageState extends State<ListComodoPage> {
   Vistoria _vistoria;
-  TextEditingController _searchController = TextEditingController();
   List<Comodos> _comodos;
+
+  TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _vistoria = widget.vistoria;
-    _comodos = _vistoria.comodos;
+    _comodos = widget.vistoria.comodos;
   }
 
   @override
@@ -32,19 +35,18 @@ class _ListComodoPageState extends State<ListComodoPage> {
           backgroundColor: Cores.laranja,
         ),
         backgroundColor: Cores.cinza_fundo,
-        body: ListView(
-          padding: EdgeInsets.only(top: 20),
-          children: [
-            _cardVistoria(),
-            Container(
-              color: Cores.cinza_fundo,
-              child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    return _listaComodos(index);
-                  },
-                  itemCount: _comodos.length + 1),
-            )
-          ],
+        body: Container(
+          child: ListView.builder(
+              itemBuilder: (context, index) {
+                if (index == 0) {
+                  return _cardVistoria();
+                } else if (index == 1) {
+                  return _searchBar();
+                } else {
+                  return _listaComodos(index - 2, _comodos);
+                }
+              },
+              itemCount: _comodos.length + 2),
         ));
   }
 
@@ -68,13 +70,6 @@ class _ListComodoPageState extends State<ListComodoPage> {
               padding: EdgeInsets.only(top: 5),
               child: Text(
                 "Imóvel: ${_vistoria.imovel.descricao}",
-                style: TextStyle(fontSize: 18, color: Cores.texto_branco),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 5),
-              child: Text(
-                "Comodos: ${_comodos.length}",
                 style: TextStyle(fontSize: 18, color: Cores.texto_branco),
               ),
             )
@@ -112,11 +107,18 @@ class _ListComodoPageState extends State<ListComodoPage> {
     );
   }
 
-  _listaComodos(index) {
+  _listaComodos(index, List<Comodos> modelo) {
     return Card(
         color: Cores.laranja,
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ItemPage(comodo: modelo[index], vistoria: _vistoria),
+              ),
+            );
+          },
           child: Padding(
             padding:
                 const EdgeInsets.only(top: 32, right: 16, bottom: 32, left: 16),
@@ -124,7 +126,7 @@ class _ListComodoPageState extends State<ListComodoPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  _comodos[index].nome,
+                  modelo[index].nome,
                   style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
