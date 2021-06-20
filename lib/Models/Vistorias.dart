@@ -1,11 +1,9 @@
-class VistoriaList {
+class Vistorias {
   List<Vistoria> vistoria;
 
-  VistoriaList({this.vistoria});
+  Vistorias({this.vistoria});
 
-  //TODO - COLOCAR METODO DE GET DO SERVIDOR AQUI
-
-  VistoriaList.fromJson(Map<String, dynamic> json) {
+  Vistorias.fromJson(Map<String, dynamic> json) {
     if (json['vistoria'] != null) {
       vistoria = new List<Vistoria>();
       json['vistoria'].forEach((v) {
@@ -31,7 +29,7 @@ class Vistoria {
 
   Vistoria.fromJson(Map<String, dynamic> json) {
     imovel =
-    json['imovel'] != null ? new Imovel.fromJson(json['imovel']) : null;
+        json['imovel'] != null ? new Imovel.fromJson(json['imovel']) : null;
     if (json['comodos'] != null) {
       comodos = new List<Comodos>();
       json['comodos'].forEach((v) {
