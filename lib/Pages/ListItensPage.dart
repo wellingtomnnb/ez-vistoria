@@ -1,30 +1,37 @@
-import 'file:///C:/Users/Wellington/AndroidStudioProjects/ez_vistors/lib/Pages/CriarItemPage.dart';
-import 'file:///C:/Users/Wellington/AndroidStudioProjects/ez_vistors/lib/Pages/ItemPage.dart';
+import 'package:ez_vistors/Pages/CriarItemPage.dart';
+import 'package:ez_vistors/Pages/ItemPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ListItensPage extends StatefulWidget {
+
+
+
+
   @override
   _ListItensPageState createState() => _ListItensPageState();
 }
 
 class _ListItensPageState extends State<ListItensPage> {
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: Text('Selecionar Item')),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => CriarItemPage())),
+          onPressed: () => Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => CriarItemPage())),
           child: Icon(Icons.add),
         ),
         body: Center(
-            child: Column(
-                children: [
-                  RaisedButton(
-                      child: Text('ITEM 1'),
-                      onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => ItemPage()))
-                  )
-                ])
-        ));
+            child: Column(children: [
+          RaisedButton(
+              child: Text('ITEM 1'),
+              onPressed: () => Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => ItemPage())))
+        ])));
   }
 }

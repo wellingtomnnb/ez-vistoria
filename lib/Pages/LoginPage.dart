@@ -1,6 +1,9 @@
-import 'package:ez_vistors/HomePage.dart';
+
+import 'package:ez_vistors/Pages/HomePage.dart';
+import 'package:ez_vistors/Theme/Cores.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -12,10 +15,11 @@ Color cormain = Color(303336);
 class _LoginPageState extends State<LoginPage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey[900],
+        backgroundColor: Cores.cinza_fundo,
         body: Padding(
             padding: EdgeInsets.fromLTRB(50, 50, 50, 50),
             child: ListView(
@@ -29,6 +33,9 @@ class _LoginPageState extends State<LoginPage> {
                   height: 75,
                   padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                   child: TextField(
+                    style: TextStyle(
+                      color: Colors.white
+                    ),
                     controller: nameController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -42,6 +49,9 @@ class _LoginPageState extends State<LoginPage> {
                   height: 75,
                   padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                   child: TextField(
+                    style: TextStyle(
+                        color: Colors.white
+                    ),
                     obscureText: true,
                     controller: passwordController,
                     decoration: InputDecoration(
@@ -72,13 +82,32 @@ class _LoginPageState extends State<LoginPage> {
                                           BorderRadius.all(Radius.circular(50)),
                                       side: BorderSide(color: Colors.red)))),
                       onPressed: () {
-                        print(nameController.text);
-                        print(passwordController.text);
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => HomePage()));
+                        _login();
                       },
                     )),
               ],
             )));
+  }
+
+  _login() {
+    //TODO - COLOCAR REGRA DE LOGIN VIA BANCO DE DADOS AQUI
+
+    if (nameController.text == "admin" && passwordController.text == "admin") {
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+    } else {
+      _showToast(context, Colors.red);
+    }
+  }
+
+  void _showToast(BuildContext context, Color cor) {
+    Fluttertoast.showToast(
+        msg: "Login o senha inválidos",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: cor,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 }

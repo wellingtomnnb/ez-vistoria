@@ -1,37 +1,37 @@
-import 'package:ez_vistors/Pages/DetalheItemPage.dart';
+import 'package:ez_vistors/Models/Vistorias.dart';
+import 'package:ez_vistors/Pages/ItemPage.dart';
 import 'package:ez_vistors/Theme/Cores.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ez_vistors/Models/Vistorias.dart';
 
-class ItemPage extends StatefulWidget {
-  final Comodos comodo;
+
+class ListComodoPage extends StatefulWidget {
   final Vistoria vistoria;
 
-  ItemPage({Key key, this.comodo, this.vistoria}) : super(key: key);
+  ListComodoPage({Key key, this.vistoria}) : super(key: key);
 
   @override
-  _ItemPageState createState() => _ItemPageState();
+  _ListComodoPageState createState() => _ListComodoPageState();
 }
 
-class _ItemPageState extends State<ItemPage> {
-  Comodos _comodo;
+class _ListComodoPageState extends State<ListComodoPage> {
   Vistoria _vistoria;
+  List<Comodos> _comodos;
 
   TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _comodo = widget.comodo;
     _vistoria = widget.vistoria;
+    _comodos = widget.vistoria.comodos;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('${_comodo.nome}'),
+          title: Text('Vistoria CPD: ' + _vistoria.imovel.cpd),
           backgroundColor: Cores.laranja,
         ),
         backgroundColor: Cores.cinza_fundo,
@@ -43,10 +43,10 @@ class _ItemPageState extends State<ItemPage> {
                 } else if (index == 1) {
                   return _searchBar();
                 } else {
-                  return _listaItens(index - 2, _comodo.itens);
+                  return _listaComodos(index - 2, _comodos);
                 }
               },
-              itemCount: _comodo.itens.length + 2),
+              itemCount: _comodos.length + 2),
         ));
   }
 
@@ -87,7 +87,7 @@ class _ItemPageState extends State<ItemPage> {
         style: TextStyle(color: Cores.texto_branco),
         decoration: InputDecoration(
             hintText: "Pesquisar",
-            labelText: "Itens",
+            labelText: "Comodos",
             icon: Icon(
               Icons.search,
               color: Cores.texto_branco,
@@ -107,7 +107,7 @@ class _ItemPageState extends State<ItemPage> {
     );
   }
 
-  _listaItens(index, List<Itens> modelo) {
+  _listaComodos(index, List<Comodos> modelo) {
     return Card(
         color: Cores.laranja,
         child: InkWell(
@@ -115,7 +115,7 @@ class _ItemPageState extends State<ItemPage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => DetalheItemPage(item: modelo[index], vistoria: _vistoria),
+                builder: (context) => ItemPage(comodo: modelo[index], vistoria: _vistoria),
               ),
             );
           },
