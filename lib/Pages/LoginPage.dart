@@ -1,4 +1,5 @@
 import 'package:ez_vistors/Pages/HomePage.dart';
+import 'package:ez_vistors/Theme/Cores.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -17,7 +18,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xFF303336),
+        backgroundColor: Cores.cinza_fundo,
         body: Padding(
             padding: EdgeInsets.fromLTRB(50, 50, 50, 50),
             child: ListView(
