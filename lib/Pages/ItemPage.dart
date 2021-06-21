@@ -13,6 +13,7 @@ class _ItemPageState extends State<ItemPage> {
         appBar: AppBar(title: Text('Item')),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add_a_photo),
+          onPressed: () {},
         ),
         body: Center(
           child: Text('AQUI DEVE EXIBIR O UM FORMULÁRIO PARA INSERIR AS CARACTERISTICAS DO ITEM'),
