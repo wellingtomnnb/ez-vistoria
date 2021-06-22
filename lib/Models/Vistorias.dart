@@ -145,3 +145,7 @@ class Fotos {
     return data;
   }
 }
+
+class TestePull{
+
+}
