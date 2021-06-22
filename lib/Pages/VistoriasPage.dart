@@ -8,6 +8,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import 'LoginPage.dart';
+import 'SobrePage.dart';
+
 class VistoriasPage extends StatefulWidget {
   @override
   _VistoriasPageState createState() => _VistoriasPageState();
@@ -42,6 +45,36 @@ class _VistoriasPageState extends State<VistoriasPage> {
                   Tab(text: "Local"),
                   Tab(text: "Servidor"),
                 ],
+              ),
+            ),
+            drawer: Drawer(
+              child: ListView(children: <Widget> [
+                DrawerHeader(
+                  child: Text("Menu"),
+                  decoration: BoxDecoration(
+                      color: Colors.grey[350],
+                      image: DecorationImage(
+                          image: NetworkImage('https://avalieja.com.br/wp-content/uploads/2020/10/WhatsApp-Image-2020-10-05-at-13.56.17.jpeg')
+                      )
+                  ),
+                ),
+                ListTile(
+                    leading: Icon(Icons.home),
+                    title: Text("Home"),
+                    onTap: () =>Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()))
+                ),
+
+                ListTile(
+                    leading: Icon(Icons.info_outline),
+                    title: Text("Sobre"),
+                    onTap: () =>Navigator.of(context).push(MaterialPageRoute(builder: (context) => SobrePage()))
+                ),
+                ListTile(
+                    leading: Icon(Icons.power_settings_new),
+                    title: Text("Sair"),
+                    onTap: () =>Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginPage()))
+                )
+              ],
               ),
             ),
             body: TabBarView(

@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'LoginPage.dart';
+import 'SobrePage.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -23,21 +24,32 @@ class _HomePageState extends State<HomePage> {
         child: ListView(children: <Widget> [
           DrawerHeader(
             child: Text("Menu"),
-            decoration: BoxDecoration(color: Colors.grey[350]),
+            decoration: BoxDecoration(
+                color: Colors.grey[350],
+                image: DecorationImage(
+                    image: NetworkImage('https://www.jetimob.com/blog/wp-content/uploads/2021/04/Jetimob-post-vistoria-imoveis-672x378.png')
+                )
+            ),
           ),
           ListTile(
-            leading: Icon(Icons.home),
-            title: Text("Item1"),
-            onTap: () {},
+              leading: Icon(Icons.check_circle_outline),
+              title: Text("Vistorias"),
+              onTap: () =>Navigator.of(context).push(MaterialPageRoute(builder: (context) => VistoriasPage()))
           ),
           ListTile(
-            leading: Icon(Icons.power_settings_new),
-            title: Text("Sair"),
-            onTap: () {Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginPage()));},
+              leading: Icon(Icons.info_outline),
+              title: Text("Sobre"),
+              onTap: () =>Navigator.of(context).push(MaterialPageRoute(builder: (context) => SobrePage()))
+          ),
+          ListTile(
+              leading: Icon(Icons.power_settings_new),
+              title: Text("Sair"),
+              onTap: () =>Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginPage()))
           )
         ],
         ),
       ),
+
       body: Container(
         color: Colors.grey[900],
         child: ListView(
