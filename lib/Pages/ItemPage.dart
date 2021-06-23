@@ -3,6 +3,7 @@ import 'package:ez_vistors/Theme/Cores.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ez_vistors/Models/Vistorias.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class ItemPage extends StatefulWidget {
   final Comodos comodo;
@@ -19,6 +20,7 @@ class _ItemPageState extends State<ItemPage> {
   Vistoria _vistoria;
 
   TextEditingController _searchController = TextEditingController();
+  TextEditingController _novoItemController = TextEditingController();
 
   @override
   void initState() {
@@ -34,8 +36,40 @@ class _ItemPageState extends State<ItemPage> {
           title: Text('${_comodo.nome}'),
           backgroundColor: Cores.laranja,
         ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            //TODO - ADICIONAR ACAO PARA ABRIR A CAMERA E TIRAR FOTO
+            Alert(
+                context: context,
+                title: "Novo item",
+                content: Column(
+                  children: <Widget>[
+                    TextField(
+                      controller: _novoItemController,
+                      decoration: InputDecoration(
+                        labelText: 'Nome do Comodo',
+                        hintText: 'Troneira, Tomada, etc...',
+                      ),
+                    )
+                  ],
+                ),
+                buttons: [
+                  DialogButton(
+                    color: Cores.laranja,
+                    onPressed: () => _addItem(),
+                    child: Text(
+                      "Adicionar",
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                  )
+                ]).show();
+          },
+          backgroundColor: Cores.laranja,
+          child: Icon(Icons.add_circle),
+        ),
         backgroundColor: Cores.cinza_fundo,
         body: Container(
+          padding: const EdgeInsets.all(10),
           child: ListView.builder(
               itemBuilder: (context, index) {
                 if (index == 0) {
@@ -48,6 +82,14 @@ class _ItemPageState extends State<ItemPage> {
               },
               itemCount: _comodo.itens.length + 2),
         ));
+  }
+
+  _addItem() {
+    Itens item = new Itens(nome: _novoItemController.text, fotos: []);
+    setState(() {
+      _comodo.itens.add(item);
+      Navigator.pop(context);
+    });
   }
 
   _cardVistoria() {
@@ -115,7 +157,8 @@ class _ItemPageState extends State<ItemPage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => DetalheItemPage(item: modelo[index], vistoria: _vistoria),
+                builder: (context) =>
+                    DetalheItemPage(item: modelo[index], vistoria: _vistoria),
               ),
             );
           },
