@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:ez_vistors/Pages/CriarPage.dart';
 import 'package:ez_vistors/Pages/DadosdoImovel.dart';
 import 'package:ez_vistors/Pages/VistoriasPage.dart';
+import 'package:ez_vistors/Pages/Vistorias.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -61,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                                 FlatButton(
                                     child: Text("Saída"),
                                     onPressed: () => Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(builder: (context) => CriarPage()))
+                                        MaterialPageRoute( builder: (context) => DadosdoImovel()))
                                 ),
                               ]
                           );
