@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:ez_vistors/Models/Vistorias.dart';
 import 'package:ez_vistors/Pages/HomePage.dart';
 import 'package:ez_vistors/Pages/ListComodoPage.dart';
+import 'package:ez_vistors/Theme/Bordas.dart';
 import 'package:ez_vistors/Theme/Cores.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -80,6 +81,7 @@ class _VistoriasPageState extends State<VistoriasPage> {
             body: TabBarView(
               children: [
                 Container(
+                  padding: const EdgeInsets.all(10),
                   color: Cores.cinza_fundo,
                   child: ListView.builder(
                       itemBuilder: (context, index) {
@@ -91,6 +93,7 @@ class _VistoriasPageState extends State<VistoriasPage> {
                       itemCount: _vistoriasLocal.vistoria.length + 1),
                 ),
                 Container(
+                  padding: const EdgeInsets.all(10),
                   color: Cores.cinza_fundo,
                   child: ListView.builder(
                       itemBuilder: (context, index) {

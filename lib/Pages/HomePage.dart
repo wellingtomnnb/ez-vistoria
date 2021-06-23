@@ -1,10 +1,8 @@
-import 'dart:convert';
-
 import 'package:ez_vistors/Pages/CriarPage.dart';
 import 'package:ez_vistors/Pages/VistoriasPage.dart';
+import 'package:ez_vistors/Theme/Cores.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'LoginPage.dart';
 import 'SobrePage.dart';
 
@@ -53,18 +51,20 @@ class _HomePageState extends State<HomePage> {
       body: Container(
         color: Colors.grey[900],
         child: ListView(
+            padding: const EdgeInsets.all(10),
             children: <Widget>[
               Container(
                 width: 200,
                 height: 130,
               ),
               Card(
+                color: Cores.laranja,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     ListTile(
-                        leading: Icon(Icons.add_box),
-                        title: Text("Nova Vistoria"),
+                        leading: Icon(Icons.add_box,color: Cores.texto_branco,),
+                        title: Text("Nova Vistoria",style: TextStyle(color: Cores.texto_branco),),
                         onTap: () {showDialog (context: context, builder: (context) {
                           return AlertDialog(
                               title: Text("Nova Vistoria"),
@@ -90,12 +90,13 @@ class _HomePageState extends State<HomePage> {
               ),
 
               Card(
+                color: Cores.laranja,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     ListTile(
-                      leading: Icon(Icons.add_box),
-                      title: Text("Última Vistoria"),
+                      leading: Icon(Icons.add_box,color: Cores.texto_branco,),
+                      title: Text("Minhas Vistorias",style: TextStyle(color: Cores.texto_branco),),
                       onTap: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => VistoriasPage()));},
                     ),
                   ],
@@ -103,25 +104,27 @@ class _HomePageState extends State<HomePage> {
               ),
 
               Card(
+                color: Cores.laranja,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     ListTile(
-                      leading: Icon(Icons.add_box),
-                      title: Text("Vistoriaa Off-line"),
-                      onTap: () {Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginPage()));},
+                      leading: Icon(Icons.add_box,color: Cores.texto_branco,),
+                      title: Text("Vistoriaa Off-line",style: TextStyle(color: Cores.texto_branco)),
+                      onTap: () {Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => VistoriasPage()));},
                     )
                   ],
                 ),
               ),
               Card(
+                color: Cores.laranja,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     ListTile(
-                      leading: Icon(Icons.add_box),
-                      title: Text("Vistoriaa On-line"),
-                      onTap: () {Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginPage()));},
+                      leading: Icon(Icons.add_box,color: Cores.texto_branco,),
+                      title: Text("Vistoriaa On-line",style: TextStyle(color: Cores.texto_branco)),
+                      onTap: () {Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => VistoriasPage()));},
                     )
                   ],
                 ),

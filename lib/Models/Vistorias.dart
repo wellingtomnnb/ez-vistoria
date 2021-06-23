@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Vistorias {
   List<Vistoria> vistoria;
 
@@ -25,7 +27,11 @@ class Vistoria {
   Imovel imovel;
   List<Comodos> comodos;
 
-  Vistoria({this.imovel, this.comodos});
+  Vistoria({this.imovel, this.comodos}) {
+    if (this.comodos == null) {
+      this.comodos = [];
+    }
+  }
 
   Vistoria.fromJson(Map<String, dynamic> json) {
     imovel =
@@ -73,7 +79,11 @@ class Comodos {
   String nome;
   List<Itens> itens;
 
-  Comodos({this.nome, this.itens});
+  Comodos({this.nome, this.itens}) {
+    if (this.itens == null) {
+      this.itens = [];
+    }
+  }
 
   Comodos.fromJson(Map<String, dynamic> json) {
     nome = json['nome'];
@@ -102,7 +112,12 @@ class Itens {
   String observacao;
   List<Fotos> fotos;
 
-  Itens({this.nome, this.material, this.condicao, this.observacao, this.fotos});
+  Itens(
+      {this.nome, this.material, this.condicao, this.observacao, this.fotos}) {
+    if (this.fotos == null) {
+      this.fotos = [];
+    }
+  }
 
   Itens.fromJson(Map<String, dynamic> json) {
     nome = json['nome'];
@@ -145,3 +160,5 @@ class Fotos {
     return data;
   }
 }
+
+class TestePull {}
