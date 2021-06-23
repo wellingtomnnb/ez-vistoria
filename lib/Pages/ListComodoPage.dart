@@ -3,6 +3,7 @@ import 'package:ez_vistors/Pages/ItemPage.dart';
 import 'package:ez_vistors/Theme/Cores.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 
 class ListComodoPage extends StatefulWidget {
@@ -19,6 +20,7 @@ class _ListComodoPageState extends State<ListComodoPage> {
   List<Comodos> _comodos;
 
   TextEditingController _searchController = TextEditingController();
+  TextEditingController _novoComodoController = TextEditingController();
 
   @override
   void initState() {
@@ -34,8 +36,40 @@ class _ListComodoPageState extends State<ListComodoPage> {
           title: Text('Vistoria CPD: ' + _vistoria.imovel.cpd),
           backgroundColor: Cores.laranja,
         ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            //TODO - ADICIONAR ACAO PARA ABRIR A CAMERA E TIRAR FOTO
+            Alert(
+                context: context,
+                title: "Novo Comodo",
+                content: Column(
+                  children: <Widget>[
+                    TextField(
+                      controller: _novoComodoController,
+                      decoration: InputDecoration(
+                        labelText: 'Nome do Comodo',
+                        hintText: 'Sala, Varanda, etc...',
+                      ),
+                    )
+                  ],
+                ),
+                buttons: [
+                  DialogButton(
+                    color: Cores.laranja,
+                    onPressed: () => _addComodo(),
+                    child: Text(
+                      "Adicionar",
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                  )
+                ]).show();
+          },
+          backgroundColor: Cores.laranja,
+          child: Icon(Icons.add_circle),
+        ),
         backgroundColor: Cores.cinza_fundo,
         body: Container(
+          padding: const EdgeInsets.all(10),
           child: ListView.builder(
               itemBuilder: (context, index) {
                 if (index == 0) {
@@ -50,6 +84,14 @@ class _ListComodoPageState extends State<ListComodoPage> {
         ));
   }
 
+
+    _addComodo(){
+      Comodos comodo = new Comodos(nome: _novoComodoController.text);
+      setState(() {
+        _vistoria.comodos.add(comodo);
+        Navigator.pop(context);
+      });
+    }
   _cardVistoria() {
     return Card(
       color: Cores.laranja,
