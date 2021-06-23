@@ -113,7 +113,9 @@ class _DetalheItemPageState extends State<DetalheItemPage> {
                     RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(50)),
                         side: BorderSide(color: Colors.red)))),
-            onPressed: () {},
+            onPressed: () {
+              _saveData();
+            },
           )
         ],
       ),
@@ -122,6 +124,7 @@ class _DetalheItemPageState extends State<DetalheItemPage> {
 
   _listFotosContainer() {
     return Container(
+      padding: const EdgeInsets.all(10),
       color: Cores.cinza_fundo,
       child: new StaggeredGridView.countBuilder(
         crossAxisCount: 4,
