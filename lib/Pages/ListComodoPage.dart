@@ -1,39 +1,39 @@
-import 'package:ez_vistors/Pages/DetalheItemPage.dart';
+import 'package:ez_vistors/Models/Vistorias.dart';
+import 'package:ez_vistors/Pages/ItemPage.dart';
 import 'package:ez_vistors/Theme/Cores.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ez_vistors/Models/Vistorias.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-class ItemPage extends StatefulWidget {
-  final Comodos comodo;
+
+class ListComodoPage extends StatefulWidget {
   final Vistoria vistoria;
 
-  ItemPage({Key key, this.comodo, this.vistoria}) : super(key: key);
+  ListComodoPage({Key key, this.vistoria}) : super(key: key);
 
   @override
-  _ItemPageState createState() => _ItemPageState();
+  _ListComodoPageState createState() => _ListComodoPageState();
 }
 
-class _ItemPageState extends State<ItemPage> {
-  Comodos _comodo;
+class _ListComodoPageState extends State<ListComodoPage> {
   Vistoria _vistoria;
+  List<Comodos> _comodos;
 
   TextEditingController _searchController = TextEditingController();
-  TextEditingController _novoItemController = TextEditingController();
+  TextEditingController _novoComodoController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _comodo = widget.comodo;
     _vistoria = widget.vistoria;
+    _comodos = widget.vistoria.comodos;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('${_comodo.nome}'),
+          title: Text('Vistoria CPD: ' + _vistoria.imovel.cpd),
           backgroundColor: Cores.laranja,
         ),
         floatingActionButton: FloatingActionButton(
@@ -41,14 +41,14 @@ class _ItemPageState extends State<ItemPage> {
             //TODO - ADICIONAR ACAO PARA ABRIR A CAMERA E TIRAR FOTO
             Alert(
                 context: context,
-                title: "Novo item",
+                title: "Novo Comodo",
                 content: Column(
                   children: <Widget>[
                     TextField(
-                      controller: _novoItemController,
+                      controller: _novoComodoController,
                       decoration: InputDecoration(
                         labelText: 'Nome do Comodo',
-                        hintText: 'Troneira, Tomada, etc...',
+                        hintText: 'Sala, Varanda, etc...',
                       ),
                     )
                   ],
@@ -56,7 +56,7 @@ class _ItemPageState extends State<ItemPage> {
                 buttons: [
                   DialogButton(
                     color: Cores.laranja,
-                    onPressed: () => _addItem(),
+                    onPressed: () => _addComodo(),
                     child: Text(
                       "Adicionar",
                       style: TextStyle(color: Colors.white, fontSize: 20),
@@ -77,21 +77,21 @@ class _ItemPageState extends State<ItemPage> {
                 } else if (index == 1) {
                   return _searchBar();
                 } else {
-                  return _listaItens(index - 2, _comodo.itens);
+                  return _listaComodos(index - 2, _comodos);
                 }
               },
-              itemCount: _comodo.itens.length + 2),
+              itemCount: _comodos.length + 2),
         ));
   }
 
-  _addItem() {
-    Itens item = new Itens(nome: _novoItemController.text, fotos: []);
-    setState(() {
-      _comodo.itens.add(item);
-      Navigator.pop(context);
-    });
-  }
 
+    _addComodo(){
+      Comodos comodo = new Comodos(nome: _novoComodoController.text);
+      setState(() {
+        _vistoria.comodos.add(comodo);
+        Navigator.pop(context);
+      });
+    }
   _cardVistoria() {
     return Card(
       color: Cores.laranja,
@@ -129,7 +129,7 @@ class _ItemPageState extends State<ItemPage> {
         style: TextStyle(color: Cores.texto_branco),
         decoration: InputDecoration(
             hintText: "Pesquisar",
-            labelText: "Itens",
+            labelText: "Comodos",
             icon: Icon(
               Icons.search,
               color: Cores.texto_branco,
@@ -149,7 +149,7 @@ class _ItemPageState extends State<ItemPage> {
     );
   }
 
-  _listaItens(index, List<Itens> modelo) {
+  _listaComodos(index, List<Comodos> modelo) {
     return Card(
         color: Cores.laranja,
         child: InkWell(
@@ -157,8 +157,7 @@ class _ItemPageState extends State<ItemPage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) =>
-                    DetalheItemPage(item: modelo[index], vistoria: _vistoria),
+                builder: (context) => ItemPage(comodo: modelo[index], vistoria: _vistoria),
               ),
             );
           },

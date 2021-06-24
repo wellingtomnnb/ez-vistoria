@@ -1,7 +1,12 @@
 
 import 'package:ez_vistors/Pages/CriarPage.dart';
+import 'package:ez_vistors/Pages/HomePage.dart';
+import 'package:ez_vistors/Pages/ListComodoPage.dart';
+import 'package:ez_vistors/Pages/LoginPage.dart';
+import 'package:ez_vistors/Pages/SobrePage.dart';
 import 'package:ez_vistors/Pages/VistoriasPage.dart';
-import 'package:ez_vistors/Pages/Vistorias.dart';
+import 'package:ez_vistors/Models/Vistorias.dart';
+import 'package:ez_vistors/Theme/Cores.dart';
 import 'package:flutter/material.dart';
 
 
@@ -18,19 +23,35 @@ class _DadosdoImovelState extends State<DadosdoImovel> {
     return Scaffold(
       appBar: AppBar(title: Text('Dados do Imóvel'), backgroundColor: Colors.orange[900],),
       drawer: Drawer(
-        child: ListView(children: <Widget> [
-          DrawerHeader(
-            child: Text("Menu"),
-            decoration: BoxDecoration(color: Colors.grey[350]),
-          ),
-          ListTile(
-            leading: Icon(Icons.home),
-            title: Text("Item000"),
-            onTap: () {},
-          )
-        ],
-        ),
-      ),
+              child: ListView(children: <Widget> [
+                DrawerHeader(
+                  child: Text("Menu"),
+                  decoration: BoxDecoration(
+                      color: Colors.grey[350],
+                      image: DecorationImage(
+                          image: NetworkImage('https://avalieja.com.br/wp-content/uploads/2020/10/WhatsApp-Image-2020-10-05-at-13.56.17.jpeg')
+                      )
+                  ),
+                ),
+                ListTile(
+                    leading: Icon(Icons.home),
+                    title: Text("Home"),
+                    onTap: () =>Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()))
+                ),
+
+                ListTile(
+                    leading: Icon(Icons.info_outline),
+                    title: Text("Sobre"),
+                    onTap: () =>Navigator.of(context).push(MaterialPageRoute(builder: (context) => SobrePage()))
+                ),
+                ListTile(
+                    leading: Icon(Icons.power_settings_new),
+                    title: Text("Sair"),
+                    onTap: () =>Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginPage()))
+                )
+              ],
+              ),
+            ),
       body: Container(
         color: Colors.grey[900],
         child: ListView(
@@ -43,7 +64,8 @@ class _DadosdoImovelState extends State<DadosdoImovel> {
                   height: 75,
                   padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                   child: TextField(
-                    controller: cpdController,
+                    controller: cpdController, 
+                    style: TextStyle(color: Cores.texto_branco),
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                           borderRadius: const BorderRadius.all(
@@ -57,6 +79,7 @@ class _DadosdoImovelState extends State<DadosdoImovel> {
                   padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                   child: TextField(
                     controller: descricaoController,
+                    style: TextStyle(color: Cores.texto_branco),
                     decoration: InputDecoration(
                       fillColor: Colors.white,
                       border: OutlineInputBorder(
@@ -86,11 +109,11 @@ class _DadosdoImovelState extends State<DadosdoImovel> {
                                           BorderRadius.all(Radius.circular(50)),
                                       side: BorderSide(color: Colors.red)))),
                       onPressed: () {
-                        // Imovel dadosimovel;
-                        // dadosimovel.cpd = cpdController.toString();
-                        // dadosimovel.descricao = descricaoController.toString();
+                        //TODO - COLOCAR ROTINA DE GRAVAR VISTORIA AQUI
+                        Imovel dadosimovel = Imovel(cpd: cpdController.text, descricao: descricaoController.text);
+                        Vistoria vistoria = Vistoria(imovel: dadosimovel, comodos: []);
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
-                              builder: (context) => CriarPage()));
+                              builder: (context) => ListComodoPage(vistoria: vistoria)));
                       },
                     )
                 ),   
