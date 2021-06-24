@@ -1,4 +1,5 @@
 import 'package:ez_vistors/Pages/CriarPage.dart';
+import 'package:ez_vistors/Pages/DadosdoImovel.dart';
 import 'package:ez_vistors/Pages/VistoriasPage.dart';
 import 'package:ez_vistors/Theme/Cores.dart';
 import 'package:flutter/cupertino.dart';
@@ -72,12 +73,12 @@ class _HomePageState extends State<HomePage> {
                               actions: [FlatButton(
                                   child: Text("Entrada"),
                                   onPressed: () => Navigator.of(context).pushReplacement (
-                                      MaterialPageRoute( builder: (context) => CriarPage()))
+                                      MaterialPageRoute( builder: (context) => DadosdoImovel()))
                               ),
                                 FlatButton(
                                     child: Text("Saída"),
                                     onPressed: () => Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(builder: (context) => CriarPage()))
+                                        MaterialPageRoute( builder: (context) => DadosdoImovel()))
                                 ),
                               ]
                           );
