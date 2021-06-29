@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:ez_vistors/Models/Vistorias.dart';
 import 'package:ez_vistors/Pages/HomePage.dart';
 import 'package:ez_vistors/Pages/ListComodoPage.dart';
@@ -8,6 +9,7 @@ import 'package:ez_vistors/Theme/Cores.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:developer' as developer;
 
 import 'LoginPage.dart';
 import 'SobrePage.dart';
@@ -27,10 +29,28 @@ class _VistoriasPageState extends State<VistoriasPage> {
   void initState() {
     super.initState();
     //TODO - COLOCAR ROTINA PARA BUCAR E IMPORTAR DADOS DO SERVIDOR AQUI
-    _vistoriasLocal = Vistorias.fromJson(jsonDecode(
-        "{\"vistoria\":[{\"imovel\":{\"cpd\":\"2777\",\"descricao\":\"Imovel numero 1\"},\"comodos\":[{\"nome\":\"\u00c1rea externa\",\"itens\":[{\"nome\":\"Eletrodom\u00e9sticos\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"1366\",\"descricao\":\"Imovel numero 2\"},\"comodos\":[{\"nome\":\"Hall da escada\",\"itens\":[{\"nome\":\"Prateleira\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"2192\",\"descricao\":\"Imovel numero 3\"},\"comodos\":[{\"nome\":\"Hall da escada\",\"itens\":[{\"nome\":\"Porta Toalha\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"3392\",\"descricao\":\"Imovel numero 4\"},\"comodos\":[{\"nome\":\"Varanda\",\"itens\":[{\"nome\":\"Sa\u00edda de Antena\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"1004\",\"descricao\":\"Imovel numero 5\"},\"comodos\":[{\"nome\":\"\u00c1rea externa\",\"itens\":[{\"nome\":\"Mureta\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"1011\",\"descricao\":\"Imovel numero 6\"},\"comodos\":[{\"nome\":\"Sala\",\"itens\":[{\"nome\":\"Bomba Embutida\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"2093\",\"descricao\":\"Imovel numero 7\"},\"comodos\":[{\"nome\":\"Varanda\",\"itens\":[{\"nome\":\"Tampa de Vaso Sanit\u00e1rio\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"2942\",\"descricao\":\"Imovel numero 8\"},\"comodos\":[{\"nome\":\"teste II\",\"itens\":[{\"nome\":\"Mobilia\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"4861\",\"descricao\":\"Imovel numero 9\"},\"comodos\":[{\"nome\":\"\u00c1rea externa\",\"itens\":[{\"nome\":\"Registro\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"1525\",\"descricao\":\"Imovel numero 10\"},\"comodos\":[{\"nome\":\"Lavabo\",\"itens\":[{\"nome\":\"Sif\u00e3o\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]}]}"));
+    //_vistoriasLocal = Vistorias.fromJson(jsonDecode(
+//        "{\"vistoria\":[{\"imovel\":{\"cpd\":\"1333\",\"descricao\":\"Imovel numero 1\"},\"comodos\":[{\"nome\":\"Hall da escada\",\"itens\":[{\"nome\":\"Maquin\u00e1rio\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"3285\",\"descricao\":\"Imovel numero 2\"},\"comodos\":[{\"nome\":\"Lavabo\",\"itens\":[{\"nome\":\"Tanque\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"2873\",\"descricao\":\"Imovel numero 3\"},\"comodos\":[{\"nome\":\"Copa\",\"itens\":[{\"nome\":\"Ilumina\u00e7\u00e3o\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"3317\",\"descricao\":\"Imovel numero 4\"},\"comodos\":[{\"nome\":\"Closet\",\"itens\":[{\"nome\":\"Prateleira\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"2763\",\"descricao\":\"Imovel numero 5\"},\"comodos\":[{\"nome\":\"Quarto\",\"itens\":[{\"nome\":\"Tamp\u00e3o de \u00c1gua\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"1573\",\"descricao\":\"Imovel numero 6\"},\"comodos\":[{\"nome\":\"teste II\",\"itens\":[{\"nome\":\"Roupas de Cama\/ Mesa\/ Banho\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"2419\",\"descricao\":\"Imovel numero 7\"},\"comodos\":[{\"nome\":\"Chaves\",\"itens\":[{\"nome\":\"Outros\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]}]}"));
+
+
+    _vistoriasLocal = new Vistorias(vistoria: []);
 
     _vistoriasServidor = _vistoriasLocal;
+
+
+    _getVistoriasServidor();
+  }
+
+  Future<void> _getVistoriasServidor() async {
+    Response response;
+    Dio dio = new Dio();
+    response = await dio.get("https://ezvistoria.webmaveric.net/api/vistorias");
+
+
+    setState(() {
+      print(jsonDecode(response.data.toString()));
+      _vistoriasServidor = Vistorias.fromJson(jsonDecode(response.data.toString()));
+    });
   }
 
   @override
