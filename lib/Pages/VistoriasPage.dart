@@ -48,7 +48,6 @@ class _VistoriasPageState extends State<VistoriasPage> {
 
 
     setState(() {
-      print(jsonDecode(response.data.toString()));
       _vistoriasServidor = Vistorias.fromJson(jsonDecode(response.data.toString()));
     });
   }
