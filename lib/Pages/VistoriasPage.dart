@@ -29,13 +29,12 @@ class _VistoriasPageState extends State<VistoriasPage> {
   void initState() {
     super.initState();
     //TODO - COLOCAR ROTINA PARA BUCAR E IMPORTAR DADOS DO SERVIDOR AQUI
-    //_vistoriasLocal = Vistorias.fromJson(jsonDecode(
-//        "{\"vistoria\":[{\"imovel\":{\"cpd\":\"1333\",\"descricao\":\"Imovel numero 1\"},\"comodos\":[{\"nome\":\"Hall da escada\",\"itens\":[{\"nome\":\"Maquin\u00e1rio\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"3285\",\"descricao\":\"Imovel numero 2\"},\"comodos\":[{\"nome\":\"Lavabo\",\"itens\":[{\"nome\":\"Tanque\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"2873\",\"descricao\":\"Imovel numero 3\"},\"comodos\":[{\"nome\":\"Copa\",\"itens\":[{\"nome\":\"Ilumina\u00e7\u00e3o\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"3317\",\"descricao\":\"Imovel numero 4\"},\"comodos\":[{\"nome\":\"Closet\",\"itens\":[{\"nome\":\"Prateleira\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"2763\",\"descricao\":\"Imovel numero 5\"},\"comodos\":[{\"nome\":\"Quarto\",\"itens\":[{\"nome\":\"Tamp\u00e3o de \u00c1gua\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"1573\",\"descricao\":\"Imovel numero 6\"},\"comodos\":[{\"nome\":\"teste II\",\"itens\":[{\"nome\":\"Roupas de Cama\/ Mesa\/ Banho\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"2419\",\"descricao\":\"Imovel numero 7\"},\"comodos\":[{\"nome\":\"Chaves\",\"itens\":[{\"nome\":\"Outros\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]}]}"));
+    //_vistoriasLocal = Vistorias.fromJson(jsonDecode("{\"vistoria\":[{\"imovel\":{\"cpd\":\"1333\",\"descricao\":\"Imovel numero 1\"},\"comodos\":[{\"nome\":\"Hall da escada\",\"itens\":[{\"nome\":\"Maquin\u00e1rio\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"3285\",\"descricao\":\"Imovel numero 2\"},\"comodos\":[{\"nome\":\"Lavabo\",\"itens\":[{\"nome\":\"Tanque\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"2873\",\"descricao\":\"Imovel numero 3\"},\"comodos\":[{\"nome\":\"Copa\",\"itens\":[{\"nome\":\"Ilumina\u00e7\u00e3o\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"3317\",\"descricao\":\"Imovel numero 4\"},\"comodos\":[{\"nome\":\"Closet\",\"itens\":[{\"nome\":\"Prateleira\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"2763\",\"descricao\":\"Imovel numero 5\"},\"comodos\":[{\"nome\":\"Quarto\",\"itens\":[{\"nome\":\"Tamp\u00e3o de \u00c1gua\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"1573\",\"descricao\":\"Imovel numero 6\"},\"comodos\":[{\"nome\":\"teste II\",\"itens\":[{\"nome\":\"Roupas de Cama\/ Mesa\/ Banho\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"2419\",\"descricao\":\"Imovel numero 7\"},\"comodos\":[{\"nome\":\"Chaves\",\"itens\":[{\"nome\":\"Outros\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]}]}"));
 
 
     _vistoriasLocal = new Vistorias(vistoria: []);
 
-    _vistoriasServidor = _vistoriasLocal;
+    _vistoriasServidor =  new Vistorias(vistoria: []);
 
 
     _getVistoriasServidor();
@@ -48,7 +47,7 @@ class _VistoriasPageState extends State<VistoriasPage> {
 
 
     setState(() {
-      _vistoriasServidor = Vistorias.fromJson(jsonDecode(response.data.toString()));
+      _vistoriasServidor = Vistorias.fromJson(response.data);
     });
   }
 
