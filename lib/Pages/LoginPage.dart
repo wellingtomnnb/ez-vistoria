@@ -25,10 +25,17 @@ class _LoginPageState extends State<LoginPage> {
             child: ListView(
               children: <Widget>[
                 Container(
-                  height: 250,
-                  width: 150,
-                  child: Image.asset("img/logo.png"),
+                width: 140,
+                height: 140,
+                child: Icon(
+                  Icons.home_work,
+                  color: Colors.white,
+                  size: 94.0,
                 ),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Cores.laranja),
+              ),
                 Container(
                   height: 75,
                   padding: EdgeInsets.fromLTRB(10, 10, 10, 10),

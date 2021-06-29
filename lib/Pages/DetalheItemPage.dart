@@ -99,7 +99,7 @@ class _DetalheItemPageState extends State<DetalheItemPage> {
           ),
           ElevatedButton(
             child: Text(
-              'Salavar',
+              'Salvar',
               style: TextStyle(fontSize: 18),
             ),
             style: ButtonStyle(
