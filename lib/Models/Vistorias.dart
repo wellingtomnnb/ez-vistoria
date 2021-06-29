@@ -1,4 +1,6 @@
+import 'package:camera_camera/camera_camera.dart';
 import 'package:flutter/material.dart';
+import 'dart:io';
 
 class Vistorias {
   List<Vistoria> vistoria;
@@ -146,7 +148,7 @@ class Itens {
 }
 
 class Fotos {
-  String file;
+  File file;
 
   Fotos({this.file});
 

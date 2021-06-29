@@ -2,6 +2,7 @@
     package="com.example.ez_vistors">
    <application
         android:label="ez_vistors"
+        android:requestLegacyExternalStorage="true"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

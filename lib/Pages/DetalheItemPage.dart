@@ -1,8 +1,13 @@
+import 'package:camera_camera/camera_camera.dart';
+import 'package:ez_vistors/Pages/PreviewImagePage.dart';
 import 'package:ez_vistors/Theme/Cores.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ez_vistors/Models/Vistorias.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:io';
+import 'package:get/get.dart';
 
 class DetalheItemPage extends StatefulWidget {
   final Itens item;
@@ -17,6 +22,7 @@ class DetalheItemPage extends StatefulWidget {
 class _DetalheItemPageState extends State<DetalheItemPage> {
   Itens _item;
   Vistoria _vistoria;
+  File file;
 
   TextEditingController _materialController = TextEditingController();
   TextEditingController _condicaoController = TextEditingController();
@@ -27,6 +33,22 @@ class _DetalheItemPageState extends State<DetalheItemPage> {
     super.initState();
     _item = widget.item;
     _vistoria = widget.vistoria;
+
+    var zero = _item.fotos[0].file;
+    if (zero == null) {
+      _item.fotos.removeAt(0);
+    }
+  }
+
+  previewImage(file) async {
+    if (file != null) {
+      setState(() {
+        _item.fotos.add(Fotos(file: file));
+      });
+    }
+    _showToast(this.context, Cores.laranja);
+
+    Get.back();
   }
 
   @override
@@ -46,7 +68,12 @@ class _DetalheItemPageState extends State<DetalheItemPage> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            //TODO - ADICIONAR ACAO PARA ABRIR A CAMERA E TIRAR FOTO
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) =>
+                      CameraCamera(onFile: (file) => previewImage(file)),
+                ));
           },
           backgroundColor: Cores.laranja,
           child: Icon(Icons.add_a_photo),
@@ -54,7 +81,7 @@ class _DetalheItemPageState extends State<DetalheItemPage> {
         body: TabBarView(
           children: [
             _formContainer(),
-            _listFotosContainer(),
+            _listFotosContainer(_item.fotos),
           ],
         ),
       ),
@@ -122,26 +149,44 @@ class _DetalheItemPageState extends State<DetalheItemPage> {
     );
   }
 
-  _listFotosContainer() {
+  _listFotosContainer(List<Fotos> modelo) {
     return Container(
       padding: const EdgeInsets.all(10),
       color: Cores.cinza_fundo,
       child: new StaggeredGridView.countBuilder(
         crossAxisCount: 4,
-        itemCount: 20,
+        itemCount: _item.fotos.length,
         itemBuilder: (BuildContext context, int index) => new Container(
-            color: Colors.green,
-            child: new Center(
-              child: new CircleAvatar(
-                backgroundColor: Colors.white,
-                child: new Text('$index'),
-              ),
-            )),
+          color: Cores.laranja,
+          child: InkWell(
+            child: Image.file(modelo[index].file, fit: BoxFit.cover),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      PreviewImagePage(item: _item, indice: index),
+                ),
+              ).then((value) => setState(() {}));
+            },
+          ),
+        ),
         staggeredTileBuilder: (int index) =>
-        new StaggeredTile.count(2, index.isEven ? 2 : 1),
+            new StaggeredTile.count(2, index.isEven ? 2 : 1),
         mainAxisSpacing: 4.0,
         crossAxisSpacing: 4.0,
       ),
     );
+  }
+
+  void _showToast(BuildContext context, Color cor) {
+    Fluttertoast.showToast(
+        msg: "Arquivo numero ${_item.fotos.length}, salvo com sucesso!",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.TOP,
+        timeInSecForIosWeb: 1,
+        backgroundColor: cor,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 }
