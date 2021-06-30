@@ -157,7 +157,7 @@ class Itens {
 }
 
 class Fotos {
-  File file;
+  String file;
 
   Fotos({this.file});
 

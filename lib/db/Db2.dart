@@ -28,19 +28,17 @@ class Db2 {
   static void _createDb(sql.Database db) {
     db.execute('''CREATE TABLE Vistorias (
       idvistoria INTEGER PRIMARY KEY AUTOINCREMENT,
-      json, TEXT
+      json TEXT
       );''');
   }
 
   static addVistoria(Vistoria vistoria) async {
     final db = await database();
-    rowVistoria v = new rowVistoria(json: jsonEncode(vistoria.toJson()).toString());
-    //v.json = jsonEncode(v.json).toString();
-    print(v.json);
+    rowVistoria v =
+        new rowVistoria(json: jsonEncode(vistoria.toJson()).toString());
 
     var row = await db.insert('Vistorias', v.toMap(),
         conflictAlgorithm: sql.ConflictAlgorithm.ignore);
-    print(row);
   }
 
   static Future<List<Vistoria>> getAllVistorias() async {
@@ -55,6 +53,7 @@ class Db2 {
       var json = (row['json']);
       vt.add(Vistoria.fromJson(jsonDecode(json.toString())));
     }
+
     return vt;
   }
 
@@ -63,13 +62,10 @@ class Db2 {
     var del = db.execute('delete from vistorias');
 
     for (var item in vistorias.vistoria) {
-      rowVistoria v = new rowVistoria(json: jsonEncode(item.toJson()).toString());
-
-      print(json);
-
-      var addrow = await db.insert('Vistorias', v.toMap());
-
-      print(addrow);
+      rowVistoria v =
+          new rowVistoria(json: jsonEncode(item.toJson()).toString());
+      var addrow = await db.insert('Vistorias', v.toMap(),
+          conflictAlgorithm: sql.ConflictAlgorithm.ignore);
     }
   }
 }

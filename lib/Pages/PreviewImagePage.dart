@@ -22,7 +22,7 @@ class _PreviewImagePageState extends State<PreviewImagePage> {
   void initState() {
     super.initState();
     _item = widget.item;
-    file = _item.fotos[widget.indice].file;
+    file = File(_item.fotos[widget.indice].file);
   }
 
   @override

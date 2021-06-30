@@ -37,6 +37,23 @@ class _ListComodoPageState extends State<ListComodoPage> {
           title: Text('Vistoria CPD: ' + _vistoria.imovel.cpd),
           backgroundColor: Cores.laranja,
         ),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: 0, // this will be set when a new tab is tapped
+          items: [
+            BottomNavigationBarItem(
+              icon: new Icon(Icons.home),
+              title: new Text('Home'),
+            ),
+            BottomNavigationBarItem(
+              icon: new Icon(Icons.mail),
+              title: new Text('Messages'),
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                title: Text('Profile')
+            )
+          ],
+        ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             //TODO - ADICIONAR ACAO PARA ABRIR A CAMERA E TIRAR FOTO

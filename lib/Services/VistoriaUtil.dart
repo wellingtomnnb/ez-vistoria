@@ -14,4 +14,10 @@ class VistoriaUtil{
     vist.vistoria = await Db2.getAllVistorias();
     return vist;
   }
+
+  static Future<void> saveAllVistorias(Vistorias vistorias) async{
+    //Database base = await db.database;
+    Vistorias vist = new Vistorias();
+    await Db2.saveAllVistorias(vistorias);
+  }
 }

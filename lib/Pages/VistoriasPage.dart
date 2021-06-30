@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:ez_vistors/Models/Vistorias.dart';
 import 'package:ez_vistors/Pages/HomePage.dart';
 import 'package:ez_vistors/Pages/ListComodoPage.dart';
+import 'package:ez_vistors/Services/VistoriaUtil.dart';
 import 'package:ez_vistors/Theme/Bordas.dart';
 import 'package:ez_vistors/Theme/Cores.dart';
 import 'package:flutter/cupertino.dart';
@@ -28,6 +29,9 @@ class _VistoriasPageState extends State<VistoriasPage> {
   Vistorias _visSLocalBusca;
   Vistorias _visServeBusca;
 
+  bool _loading = true;
+
+
 
 
   @override
@@ -44,10 +48,20 @@ class _VistoriasPageState extends State<VistoriasPage> {
     _visSLocalBusca = _vistoriasLocal;
     _visServeBusca = _vistoriasServidor;
 
-    _getVistoriasServidor();
+    _onLoading();
   }
 
-  Future<void> _getVistoriasServidor() async {
+  _getVistoriasLocal(Vistorias modelo) async{
+
+    await modelo.getAll();
+
+    setState(() {
+      _vistoriasLocal = modelo;
+      _visSLocalBusca = modelo;
+    });
+  }
+
+  Future<void> _onLoading() async {
     Response response;
     Dio dio = new Dio();
     response = await dio.get("https://ezvistoria.webmaveric.net/api/vistorias");
@@ -59,13 +73,64 @@ class _VistoriasPageState extends State<VistoriasPage> {
       _visServeBusca = _vistoriasServidor;
 
       //GET VISTORIAS LOCAIS
-      _vistoriasLocal.getAll();
-      _visSLocalBusca = _vistoriasLocal;
+      _getVistoriasLocal(_vistoriasLocal);
+      _loading = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+
+    var bodyProgress = new Container(
+      child: new Stack(
+        children: <Widget>[
+          new Container(
+            alignment: AlignmentDirectional.center,
+            decoration: new BoxDecoration(
+              color: Cores.cinza_fundo,
+            ),
+            child: new Container(
+              decoration: new BoxDecoration(
+                  color: Cores.laranja,
+                  borderRadius: new BorderRadius.circular(10.0)
+              ),
+              width: 300.0,
+              height: 200.0,
+              alignment: AlignmentDirectional.center,
+              child: new Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  new Center(
+                    child: new SizedBox(
+                      height: 50.0,
+                      width: 50.0,
+                      child: new CircularProgressIndicator(
+                        value: null,
+                        strokeWidth: 7.0,
+                      ),
+                    ),
+                  ),
+                  new Container(
+                    margin: const EdgeInsets.only(top: 25.0),
+                    child: new Center(
+                      child: new Text(
+                        "Carregando...",
+                        style: new TextStyle(
+                            color: Colors.white
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+
+
     return DefaultTabController(
         length: 2,
         child: Scaffold(
@@ -109,7 +174,7 @@ class _VistoriasPageState extends State<VistoriasPage> {
               ],
               ),
             ),
-            body: TabBarView(
+            body: _loading ? bodyProgress :  TabBarView(
               children: [
                 Container(
                   padding: const EdgeInsets.all(10),
@@ -217,7 +282,9 @@ class _VistoriasPageState extends State<VistoriasPage> {
                 builder: (context) =>
                     ListComodoPage(vistoria: modelo.vistoria[index]),
               ),
-            );
+            ).then((value) => setState(() {
+              VistoriaUtil.saveAllVistorias(_vistoriasLocal);
+            }));
           },
           child: Padding(
             padding:

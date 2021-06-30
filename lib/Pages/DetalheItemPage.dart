@@ -6,8 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:ez_vistors/Models/Vistorias.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gallery_saver/gallery_saver.dart';
 import 'dart:io';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 
 class DetalheItemPage extends StatefulWidget {
   final Itens item;
@@ -48,11 +51,14 @@ class _DetalheItemPageState extends State<DetalheItemPage> {
 
   previewImage(file) async {
     if (file != null) {
-      setState(() {
-        _item.fotos.add(Fotos(file: file));
-      });
+      var isExist = await file.exists();
+      if(isExist){
+        setState(() {
+          _item.fotos.add(Fotos(file: file.path));
+        });
+        _showToast(this.context, "Arquivo numero ${_item.fotos.length}, salvo com sucesso!");
+      }
     }
-    _showToast(this.context, "Arquivo numero ${_item.fotos.length}, salvo com sucesso!");
   }
 
   @override
@@ -179,6 +185,7 @@ class _DetalheItemPageState extends State<DetalheItemPage> {
   }
 
   _listFotosContainer(List<Fotos> modelo) {
+
     return Container(
       padding: const EdgeInsets.all(10),
       color: Cores.cinza_fundo,
@@ -188,7 +195,7 @@ class _DetalheItemPageState extends State<DetalheItemPage> {
         itemBuilder: (BuildContext context, int index) => new Container(
           color: Cores.laranja,
           child: InkWell(
-            child: Image.file(modelo[index].file, fit: BoxFit.cover),
+            child: Image.file(File(modelo[index].file), fit: BoxFit.cover),
             onTap: () {
               Navigator.push(
                 context,
