@@ -40,6 +40,10 @@ class _DetalheItemPageState extends State<DetalheItemPage> {
         _item.fotos.removeAt(0);
       }
     }
+
+    _condicaoController.text = _item.condicao;
+    _materialController.text = _item.material;
+    _observacaoController.text = _item.observacao;
   }
 
   previewImage(file) async {
@@ -108,6 +112,12 @@ class _DetalheItemPageState extends State<DetalheItemPage> {
 
 
       //TODO - Colocar rotina de salvar aqui
+
+      setState(() {
+        _item.condicao = _condicaoController.text;
+        _item.material = _materialController.text;
+        _item.observacao = _observacaoController.text;
+      });
     }
   }
 
@@ -115,7 +125,7 @@ class _DetalheItemPageState extends State<DetalheItemPage> {
     return Container(
       padding: EdgeInsets.only(top: 10, right: 20, bottom: 10, left: 20),
       color: Cores.cinza_fundo,
-      child: Column(
+      child: ListView(
         children: <Widget>[
           TextField(
             controller: _materialController,

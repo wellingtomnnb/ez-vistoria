@@ -28,6 +28,8 @@ class _VistoriasPageState extends State<VistoriasPage> {
   Vistorias _visSLocalBusca;
   Vistorias _visServeBusca;
 
+
+
   @override
   void initState() {
     super.initState();
@@ -40,6 +42,7 @@ class _VistoriasPageState extends State<VistoriasPage> {
 
 
     _visSLocalBusca = _vistoriasLocal;
+    _visServeBusca = _vistoriasServidor;
 
     _getVistoriasServidor();
   }
@@ -51,8 +54,13 @@ class _VistoriasPageState extends State<VistoriasPage> {
 
 
     setState(() {
+      //GET VISTORIAS SERVIDOR
       _vistoriasServidor = Vistorias.fromJson(response.data);
       _visServeBusca = _vistoriasServidor;
+
+      //GET VISTORIAS LOCAIS
+      _vistoriasLocal.getAll();
+      _visSLocalBusca = _vistoriasLocal;
     });
   }
 
@@ -173,20 +181,26 @@ class _VistoriasPageState extends State<VistoriasPage> {
               color: Cores.texto_branco,
             ),
             suffixIcon: IconButton(
-              onPressed: controller.clear,
+              onPressed: (){
+                controller.clear;
+                setState(() {
+                  _visServeBusca = _vistoriasServidor;
+                });
+              },
               icon: Icon(Icons.cancel),
               color: Cores.cinza_claro,
             )),
         onChanged: (text) {
           text = text.toLowerCase();
+          if(text != null){
+            var lista = _vistoriasServidor.vistoria;
 
-          var lista = _vistoriasServidor.vistoria;
+            lista = lista.where((element) => element.imovel.cpd==text).toList();
 
-          lista = lista.where((element) => element.imovel.cpd==text).toList();
-
-          setState(() {
-            _visServeBusca.vistoria = lista;
-          });
+            setState(() {
+              _visServeBusca.vistoria = lista;
+            });
+          }
         },
       ),
     );
