@@ -126,7 +126,8 @@ class _DetalheItemPageState extends State<DetalheItemPage> {
   }
 
   _formContainer() {
-    return Container(
+    return SingleChildScrollView(
+      child: Container(
       padding: EdgeInsets.only(top: 10, right: 20, bottom: 10, left: 20),
       color: Cores.cinza_fundo,
       child: ListView(
@@ -166,9 +167,9 @@ class _DetalheItemPageState extends State<DetalheItemPage> {
                 padding: MaterialStateProperty.all<EdgeInsets>(
                     EdgeInsets.only(left: 60, right: 60)),
                 foregroundColor:
-                    MaterialStateProperty.all<Color>(Cores.texto_branco),
+                MaterialStateProperty.all<Color>(Cores.texto_branco),
                 backgroundColor:
-                    MaterialStateProperty.all<Color>(Cores.laranja),
+                MaterialStateProperty.all<Color>(Cores.laranja),
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(50)),
@@ -179,7 +180,7 @@ class _DetalheItemPageState extends State<DetalheItemPage> {
           )
         ],
       ),
-    );
+    ),);
   }
 
   _listFotosContainer(List<Fotos> modelo) {
