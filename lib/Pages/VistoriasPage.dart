@@ -25,6 +25,9 @@ class _VistoriasPageState extends State<VistoriasPage> {
   TextEditingController _searchLocalController = TextEditingController();
   TextEditingController _searchServerController = TextEditingController();
 
+  Vistorias _visSLocalBusca;
+  Vistorias _visServeBusca;
+
   @override
   void initState() {
     super.initState();
@@ -33,9 +36,10 @@ class _VistoriasPageState extends State<VistoriasPage> {
 
 
     _vistoriasLocal = new Vistorias(vistoria: []);
-
     _vistoriasServidor =  new Vistorias(vistoria: []);
 
+
+    _visSLocalBusca = _vistoriasLocal;
 
     _getVistoriasServidor();
   }
@@ -48,6 +52,7 @@ class _VistoriasPageState extends State<VistoriasPage> {
 
     setState(() {
       _vistoriasServidor = Vistorias.fromJson(response.data);
+      _visServeBusca = _vistoriasServidor;
     });
   }
 
@@ -104,7 +109,7 @@ class _VistoriasPageState extends State<VistoriasPage> {
                   child: ListView.builder(
                       itemBuilder: (context, index) {
                         return index == 0
-                            ? _searchBar(
+                            ? _searchBarLocal(
                                 _searchLocalController, _vistoriasLocal, 1)
                             : _listaVistorias(index - 1, _vistoriasLocal);
                       },
@@ -116,17 +121,17 @@ class _VistoriasPageState extends State<VistoriasPage> {
                   child: ListView.builder(
                       itemBuilder: (context, index) {
                         return index == 0
-                            ? _searchBar(
-                                _searchServerController, _vistoriasServidor, 2)
-                            : _listaVistorias(index - 1, _vistoriasServidor);
+                            ? _searchBarServidor(
+                                _searchServerController, _visServeBusca, 2)
+                            : _listaVistorias(index - 1, _visServeBusca);
                       },
-                      itemCount: _vistoriasServidor.vistoria.length + 1),
+                      itemCount: _visServeBusca.vistoria.length + 1),
                 )
               ],
             )));
   }
 
-  _searchBar(TextEditingController controller, Vistorias modelo, tem) {
+  _searchBarLocal(TextEditingController controller, Vistorias modelo, tem) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextField(
@@ -147,21 +152,40 @@ class _VistoriasPageState extends State<VistoriasPage> {
         onChanged: (text) {
           text = text.toLowerCase();
           setState(() {
-            var buscaCpd = modelo.vistoria
-                .where((element) => element.imovel.cpd.contains(text));
 
-            if (buscaCpd.length == 0) {
-              var buscaDescricao = modelo.vistoria
-                  .where((element) => element.imovel.descricao.contains(text));
-              if (buscaDescricao.length > 0) {
-                modelo.vistoria = buscaDescricao;
-              } else {
-                _showToast(context, "Nenhum registro encontrado.");
-              }
-            } else {
-              modelo.vistoria = buscaCpd;
-            }
+          });
+        },
+      ),
+    );
+  }
 
+  _searchBarServidor(TextEditingController controller, Vistorias modelo, tem) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextField(
+        controller: controller,
+        style: TextStyle(color: Cores.texto_branco),
+        decoration: InputDecoration(
+            hintText: "Pesquisar",
+            labelText: "Pesquisar",
+            icon: Icon(
+              Icons.search,
+              color: Cores.texto_branco,
+            ),
+            suffixIcon: IconButton(
+              onPressed: controller.clear,
+              icon: Icon(Icons.cancel),
+              color: Cores.cinza_claro,
+            )),
+        onChanged: (text) {
+          text = text.toLowerCase();
+
+          var lista = _vistoriasServidor.vistoria;
+
+          lista = lista.where((element) => element.imovel.cpd==text).toList();
+
+          setState(() {
+            _visServeBusca.vistoria = lista;
           });
         },
       ),

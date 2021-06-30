@@ -34,9 +34,11 @@ class _DetalheItemPageState extends State<DetalheItemPage> {
     _item = widget.item;
     _vistoria = widget.vistoria;
 
-    var zero = _item.fotos[0].file;
-    if (zero == null) {
-      _item.fotos.removeAt(0);
+    if(_item.fotos.length >= 1){
+      var zero = _item.fotos[0].file;
+      if (zero == null) {
+        _item.fotos.removeAt(0);
+      }
     }
   }
 
@@ -46,9 +48,7 @@ class _DetalheItemPageState extends State<DetalheItemPage> {
         _item.fotos.add(Fotos(file: file));
       });
     }
-    _showToast(this.context, Cores.laranja);
-
-    Get.back();
+    _showToast(this.context, "Arquivo numero ${_item.fotos.length}, salvo com sucesso!");
   }
 
   @override
@@ -88,8 +88,27 @@ class _DetalheItemPageState extends State<DetalheItemPage> {
     );
   }
 
+  bool _validate(){
+    bool hasError = false;
+
+    if(_condicaoController.text == null){
+      _showToast(this.context, "Prencha o campo condição");
+      hasError = true;
+    }
+
+    if(_materialController.text == null){
+      _showToast(this.context, "Prencha o campo material");
+      hasError = true;
+    }
+
+    return hasError;
+  }
   _saveData() {
-    //TODO - Colocar rotina de salvar aqui
+    if(!_validate()){
+
+
+      //TODO - Colocar rotina de salvar aqui
+    }
   }
 
   _formContainer() {
@@ -179,13 +198,13 @@ class _DetalheItemPageState extends State<DetalheItemPage> {
     );
   }
 
-  void _showToast(BuildContext context, Color cor) {
+  void _showToast(BuildContext context, String texto) {
     Fluttertoast.showToast(
-        msg: "Arquivo numero ${_item.fotos.length}, salvo com sucesso!",
+        msg: texto,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.TOP,
         timeInSecForIosWeb: 1,
-        backgroundColor: cor,
+        backgroundColor: Cores.laranja,
         textColor: Colors.white,
         fontSize: 16.0);
   }

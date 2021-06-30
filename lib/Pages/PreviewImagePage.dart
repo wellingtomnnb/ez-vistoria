@@ -25,7 +25,6 @@ class _PreviewImagePageState extends State<PreviewImagePage> {
     file = _item.fotos[widget.indice].file;
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,11 +52,15 @@ class _PreviewImagePageState extends State<PreviewImagePage> {
                               color: Colors.red,
                               size: 30,
                             ),
-                            onPressed: (){
+                            onPressed: () {
                               file.delete();
 
                               setState(() {
                                 _item.fotos.removeAt(widget.indice);
+
+                                if (_item.fotos.length == 0) {
+                                  _item.fotos = [];
+                                }
                               });
 
                               Navigator.pop(context);
@@ -79,7 +82,7 @@ class _PreviewImagePageState extends State<PreviewImagePage> {
                               color: Colors.white,
                               size: 30,
                             ),
-                            onPressed: (){
+                            onPressed: () {
                               Navigator.pop(context);
                             },
                           ),
