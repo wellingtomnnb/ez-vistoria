@@ -126,61 +126,60 @@ class _DetalheItemPageState extends State<DetalheItemPage> {
   }
 
   _formContainer() {
-    return SingleChildScrollView(
-      child: Container(
+    return Container(
       padding: EdgeInsets.only(top: 10, right: 20, bottom: 10, left: 20),
       color: Cores.cinza_fundo,
-      child: ListView(
-        children: <Widget>[
-          TextField(
-            controller: _materialController,
-            style: TextStyle(color: Cores.texto_branco),
-            decoration: InputDecoration(
-                hintText: "Em madeira,Ferro, Plastico, etc...",
-                labelText: "Material do item"),
-          ),
-          TextField(
-            controller: _condicaoController,
-            style: TextStyle(color: Cores.texto_branco),
-            decoration: InputDecoration(
-                hintText: "Em bom estado, com lascados, danificado, etc...",
-                labelText: "Condição do item"),
-          ),
-          TextField(
-            controller: _observacaoController,
-            style: TextStyle(color: Cores.texto_branco),
-            decoration: InputDecoration(labelText: "Observações"),
-            keyboardType: TextInputType.multiline,
-            minLines: 5,
-            //Normal textInputField will be displayed
-            maxLines: 5, // when user presses enter it will adapt to it
-          ),
-          Container(
-            padding: EdgeInsets.only(top: 30),
-          ),
-          ElevatedButton(
-            child: Text(
-              'Salvar',
-              style: TextStyle(fontSize: 18),
+        child: ListView(
+          children: <Widget>[
+            TextField(
+              controller: _materialController,
+              style: TextStyle(color: Cores.texto_branco),
+              decoration: InputDecoration(
+                  hintText: "Em madeira,Ferro, Plastico, etc...",
+                  labelText: "Material do item"),
             ),
-            style: ButtonStyle(
-                padding: MaterialStateProperty.all<EdgeInsets>(
-                    EdgeInsets.only(left: 60, right: 60)),
-                foregroundColor:
-                MaterialStateProperty.all<Color>(Cores.texto_branco),
-                backgroundColor:
-                MaterialStateProperty.all<Color>(Cores.laranja),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(50)),
-                        side: BorderSide(color: Colors.red)))),
-            onPressed: () {
-              _saveData();
-            },
-          )
-        ],
-      ),
-    ),);
+            TextField(
+              controller: _condicaoController,
+              style: TextStyle(color: Cores.texto_branco),
+              decoration: InputDecoration(
+                  hintText: "Em bom estado, com lascados, danificado, etc...",
+                  labelText: "Condição do item"),
+            ),
+            TextField(
+              controller: _observacaoController,
+              style: TextStyle(color: Cores.texto_branco),
+              decoration: InputDecoration(labelText: "Observações"),
+              keyboardType: TextInputType.multiline,
+              minLines: 5,
+              //Normal textInputField will be displayed
+              maxLines: 5, // when user presses enter it will adapt to it
+            ),
+            Container(
+              padding: EdgeInsets.only(top: 30),
+            ),
+            ElevatedButton(
+              child: Text(
+                'Salvar',
+                style: TextStyle(fontSize: 18),
+              ),
+              style: ButtonStyle(
+                  padding: MaterialStateProperty.all<EdgeInsets>(
+                      EdgeInsets.only(left: 60, right: 60)),
+                  foregroundColor:
+                  MaterialStateProperty.all<Color>(Cores.texto_branco),
+                  backgroundColor:
+                  MaterialStateProperty.all<Color>(Cores.laranja),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(50)),
+                          side: BorderSide(color: Colors.red)))),
+              onPressed: () {
+                _saveData();
+              },
+            )
+          ],
+        )
+    );
   }
 
   _listFotosContainer(List<Fotos> modelo) {
