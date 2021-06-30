@@ -115,14 +115,12 @@ class _DetalheItemPageState extends State<DetalheItemPage> {
   }
   _saveData() {
     if(!_validate()){
-
-
-      //TODO - Colocar rotina de salvar aqui
-
       setState(() {
         _item.condicao = _condicaoController.text;
         _item.material = _materialController.text;
         _item.observacao = _observacaoController.text;
+
+        _showToast(this.context, "Item salvo com sucesso!");
       });
     }
   }
