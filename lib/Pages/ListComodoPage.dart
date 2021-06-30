@@ -38,19 +38,26 @@ class _ListComodoPageState extends State<ListComodoPage> {
           backgroundColor: Cores.laranja,
         ),
         bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Colors.white,
           currentIndex: 0, // this will be set when a new tab is tapped
+          onTap: (int index){
+            switch (index) {
+              case 0:
+                 //TODO - COLOCAR ROTINA ENVIO PARA O SERDIRO DQUI
+                break;
+              case 1:
+
+                break;
+            }
+          },
           items: [
             BottomNavigationBarItem(
-              icon: new Icon(Icons.home),
-              title: new Text('Home'),
+              icon: new Icon(Icons.save,color: Cores.laranja),
+              title: new Text('Salvar',style: TextStyle(color: Cores.laranja),),
             ),
             BottomNavigationBarItem(
-              icon: new Icon(Icons.mail),
-              title: new Text('Messages'),
-            ),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                title: Text('Profile')
+              icon: new Icon(Icons.picture_as_pdf_outlined),
+              title: new Text('Baixar'),
             )
           ],
         ),
