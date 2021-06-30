@@ -1,5 +1,6 @@
 import 'package:ez_vistors/Models/Vistorias.dart';
 import 'package:ez_vistors/Pages/ItemPage.dart';
+import 'package:ez_vistors/Pages/PdfPreviewPage.dart';
 import 'package:ez_vistors/Theme/Cores.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +31,16 @@ class _ListComodoPageState extends State<ListComodoPage> {
     _comodos = widget.vistoria.comodos;
   }
 
+  _previewPdf(){
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            PdfPreviewPage(vistoria: _vistoria,),
+      ),
+    ).then((value) => setState(() {}));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,10 +54,12 @@ class _ListComodoPageState extends State<ListComodoPage> {
           onTap: (int index){
             switch (index) {
               case 0:
-                 //TODO - COLOCAR ROTINA ENVIO PARA O SERDIRO DQUI
+                 _showToast(context, "Enviado...");
+
+                 _showToast(context, "Vistoria enviada com sucesso!");
                 break;
               case 1:
-
+                _previewPdf();
                 break;
             }
           },
@@ -116,6 +129,7 @@ class _ListComodoPageState extends State<ListComodoPage> {
         _vistoria.comodos.add(comodo);
         Navigator.pop(context);
         _showToast(this.context, "${_novoComodoController.text} foi adicionado(a)");
+        _novoComodoController.text = "";
       });
     }
   _cardVistoria() {

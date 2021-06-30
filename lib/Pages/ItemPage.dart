@@ -91,6 +91,7 @@ class _ItemPageState extends State<ItemPage> {
       _comodo.itens.add(item);
       Navigator.pop(context);
       _showToast(this.context, "${_novoItemController.text} foi adicionado(a)");
+      _novoItemController.text = "";
     });
   }
 

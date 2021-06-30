@@ -283,7 +283,9 @@ class _VistoriasPageState extends State<VistoriasPage> {
                     ListComodoPage(vistoria: modelo.vistoria[index]),
               ),
             ).then((value) => setState(() {
+              _showToast(context, "Salvando...");
               VistoriaUtil.saveAllVistorias(_vistoriasLocal);
+              _showToast(context, "Repositório atualizado com sucesso!");
             }));
           },
           child: Padding(

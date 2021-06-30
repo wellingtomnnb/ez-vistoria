@@ -27,8 +27,7 @@ class Vistorias {
     return data;
   }
 
-
-  getAll() async{
+  getAll() async {
     var v = await VistoriaUtil.getVistorias();
     this.vistoria = v.vistoria;
   }
