@@ -1,13 +1,16 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:ez_vistors/Models/Vistorias.dart';
 import 'package:ez_vistors/Pages/HomePage.dart';
 import 'package:ez_vistors/Pages/ListComodoPage.dart';
+import 'package:ez_vistors/Services/VistoriaUtil.dart';
 import 'package:ez_vistors/Theme/Bordas.dart';
 import 'package:ez_vistors/Theme/Cores.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:developer' as developer;
 
 import 'LoginPage.dart';
 import 'SobrePage.dart';
@@ -23,18 +26,111 @@ class _VistoriasPageState extends State<VistoriasPage> {
   TextEditingController _searchLocalController = TextEditingController();
   TextEditingController _searchServerController = TextEditingController();
 
+  Vistorias _visSLocalBusca;
+  Vistorias _visServeBusca;
+
+  bool _loading = true;
+
+
+
+
   @override
   void initState() {
     super.initState();
     //TODO - COLOCAR ROTINA PARA BUCAR E IMPORTAR DADOS DO SERVIDOR AQUI
-    _vistoriasLocal = Vistorias.fromJson(jsonDecode(
-        "{\"vistoria\":[{\"imovel\":{\"cpd\":\"2777\",\"descricao\":\"Imovel numero 1\"},\"comodos\":[{\"nome\":\"\u00c1rea externa\",\"itens\":[{\"nome\":\"Eletrodom\u00e9sticos\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"1366\",\"descricao\":\"Imovel numero 2\"},\"comodos\":[{\"nome\":\"Hall da escada\",\"itens\":[{\"nome\":\"Prateleira\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"2192\",\"descricao\":\"Imovel numero 3\"},\"comodos\":[{\"nome\":\"Hall da escada\",\"itens\":[{\"nome\":\"Porta Toalha\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"3392\",\"descricao\":\"Imovel numero 4\"},\"comodos\":[{\"nome\":\"Varanda\",\"itens\":[{\"nome\":\"Sa\u00edda de Antena\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"1004\",\"descricao\":\"Imovel numero 5\"},\"comodos\":[{\"nome\":\"\u00c1rea externa\",\"itens\":[{\"nome\":\"Mureta\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"1011\",\"descricao\":\"Imovel numero 6\"},\"comodos\":[{\"nome\":\"Sala\",\"itens\":[{\"nome\":\"Bomba Embutida\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"2093\",\"descricao\":\"Imovel numero 7\"},\"comodos\":[{\"nome\":\"Varanda\",\"itens\":[{\"nome\":\"Tampa de Vaso Sanit\u00e1rio\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"2942\",\"descricao\":\"Imovel numero 8\"},\"comodos\":[{\"nome\":\"teste II\",\"itens\":[{\"nome\":\"Mobilia\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"4861\",\"descricao\":\"Imovel numero 9\"},\"comodos\":[{\"nome\":\"\u00c1rea externa\",\"itens\":[{\"nome\":\"Registro\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"1525\",\"descricao\":\"Imovel numero 10\"},\"comodos\":[{\"nome\":\"Lavabo\",\"itens\":[{\"nome\":\"Sif\u00e3o\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]}]}"));
+    //_vistoriasLocal = Vistorias.fromJson(jsonDecode("{\"vistoria\":[{\"imovel\":{\"cpd\":\"1333\",\"descricao\":\"Imovel numero 1\"},\"comodos\":[{\"nome\":\"Hall da escada\",\"itens\":[{\"nome\":\"Maquin\u00e1rio\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"3285\",\"descricao\":\"Imovel numero 2\"},\"comodos\":[{\"nome\":\"Lavabo\",\"itens\":[{\"nome\":\"Tanque\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"2873\",\"descricao\":\"Imovel numero 3\"},\"comodos\":[{\"nome\":\"Copa\",\"itens\":[{\"nome\":\"Ilumina\u00e7\u00e3o\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"3317\",\"descricao\":\"Imovel numero 4\"},\"comodos\":[{\"nome\":\"Closet\",\"itens\":[{\"nome\":\"Prateleira\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"2763\",\"descricao\":\"Imovel numero 5\"},\"comodos\":[{\"nome\":\"Quarto\",\"itens\":[{\"nome\":\"Tamp\u00e3o de \u00c1gua\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"1573\",\"descricao\":\"Imovel numero 6\"},\"comodos\":[{\"nome\":\"teste II\",\"itens\":[{\"nome\":\"Roupas de Cama\/ Mesa\/ Banho\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]},{\"imovel\":{\"cpd\":\"2419\",\"descricao\":\"Imovel numero 7\"},\"comodos\":[{\"nome\":\"Chaves\",\"itens\":[{\"nome\":\"Outros\",\"material\":\"\",\"condicao\":\"\",\"observacao\":\"\",\"fotos\":[{\"file\":\"\"}]}]}]}]}"));
 
-    _vistoriasServidor = _vistoriasLocal;
+
+    _vistoriasLocal = new Vistorias(vistoria: []);
+    _vistoriasServidor =  new Vistorias(vistoria: []);
+
+
+    _visSLocalBusca = _vistoriasLocal;
+    _visServeBusca = _vistoriasServidor;
+
+    _onLoading();
+  }
+
+  _getVistoriasLocal(Vistorias modelo) async{
+
+    await modelo.getAll();
+
+    setState(() {
+      _vistoriasLocal = modelo;
+      _visSLocalBusca = modelo;
+    });
+  }
+
+  Future<void> _onLoading() async {
+    Response response;
+    Dio dio = new Dio();
+    response = await dio.get("https://ezvistoria.webmaveric.net/api/vistorias");
+
+
+    setState(() {
+      //GET VISTORIAS SERVIDOR
+      _vistoriasServidor = Vistorias.fromJson(response.data);
+      _visServeBusca = _vistoriasServidor;
+
+      //GET VISTORIAS LOCAIS
+      _getVistoriasLocal(_vistoriasLocal);
+      _loading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+
+    var bodyProgress = new Container(
+      child: new Stack(
+        children: <Widget>[
+          new Container(
+            alignment: AlignmentDirectional.center,
+            decoration: new BoxDecoration(
+              color: Cores.cinza_fundo,
+            ),
+            child: new Container(
+              decoration: new BoxDecoration(
+                  color: Cores.laranja,
+                  borderRadius: new BorderRadius.circular(10.0)
+              ),
+              width: 300.0,
+              height: 200.0,
+              alignment: AlignmentDirectional.center,
+              child: new Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  new Center(
+                    child: new SizedBox(
+                      height: 50.0,
+                      width: 50.0,
+                      child: new CircularProgressIndicator(
+                        value: null,
+                        strokeWidth: 7.0,
+                      ),
+                    ),
+                  ),
+                  new Container(
+                    margin: const EdgeInsets.only(top: 25.0),
+                    child: new Center(
+                      child: new Text(
+                        "Carregando...",
+                        style: new TextStyle(
+                            color: Colors.white
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+
+
     return DefaultTabController(
         length: 2,
         child: Scaffold(
@@ -78,7 +174,7 @@ class _VistoriasPageState extends State<VistoriasPage> {
               ],
               ),
             ),
-            body: TabBarView(
+            body: _loading ? bodyProgress :  TabBarView(
               children: [
                 Container(
                   padding: const EdgeInsets.all(10),
@@ -86,7 +182,7 @@ class _VistoriasPageState extends State<VistoriasPage> {
                   child: ListView.builder(
                       itemBuilder: (context, index) {
                         return index == 0
-                            ? _searchBar(
+                            ? _searchBarLocal(
                                 _searchLocalController, _vistoriasLocal, 1)
                             : _listaVistorias(index - 1, _vistoriasLocal);
                       },
@@ -98,17 +194,17 @@ class _VistoriasPageState extends State<VistoriasPage> {
                   child: ListView.builder(
                       itemBuilder: (context, index) {
                         return index == 0
-                            ? _searchBar(
-                                _searchServerController, _vistoriasServidor, 2)
-                            : _listaVistorias(index - 1, _vistoriasServidor);
+                            ? _searchBarServidor(
+                                _searchServerController, _visServeBusca, 2)
+                            : _listaVistorias(index - 1, _visServeBusca);
                       },
-                      itemCount: _vistoriasServidor.vistoria.length + 1),
+                      itemCount: _visServeBusca.vistoria.length + 1),
                 )
               ],
             )));
   }
 
-  _searchBar(TextEditingController controller, Vistorias modelo, tem) {
+  _searchBarLocal(TextEditingController controller, Vistorias modelo, tem) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextField(
@@ -129,22 +225,47 @@ class _VistoriasPageState extends State<VistoriasPage> {
         onChanged: (text) {
           text = text.toLowerCase();
           setState(() {
-            var buscaCpd = modelo.vistoria
-                .where((element) => element.imovel.cpd.contains(text));
-
-            if (buscaCpd.length == 0) {
-              var buscaDescricao = modelo.vistoria
-                  .where((element) => element.imovel.descricao.contains(text));
-              if (buscaDescricao.length > 0) {
-                modelo.vistoria = buscaDescricao;
-              } else {
-                _showToast(context, "Nenhum registro encontrado.");
-              }
-            } else {
-              modelo.vistoria = buscaCpd;
-            }
 
           });
+        },
+      ),
+    );
+  }
+
+  _searchBarServidor(TextEditingController controller, Vistorias modelo, tem) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextField(
+        controller: controller,
+        style: TextStyle(color: Cores.texto_branco),
+        decoration: InputDecoration(
+            hintText: "Pesquisar",
+            labelText: "Pesquisar",
+            icon: Icon(
+              Icons.search,
+              color: Cores.texto_branco,
+            ),
+            suffixIcon: IconButton(
+              onPressed: (){
+                controller.clear;
+                setState(() {
+                  _visServeBusca = _vistoriasServidor;
+                });
+              },
+              icon: Icon(Icons.cancel),
+              color: Cores.cinza_claro,
+            )),
+        onChanged: (text) {
+          text = text.toLowerCase();
+          if(text != null){
+            var lista = _vistoriasServidor.vistoria;
+
+            lista = lista.where((element) => element.imovel.cpd==text).toList();
+
+            setState(() {
+              _visServeBusca.vistoria = lista;
+            });
+          }
         },
       ),
     );
@@ -161,7 +282,9 @@ class _VistoriasPageState extends State<VistoriasPage> {
                 builder: (context) =>
                     ListComodoPage(vistoria: modelo.vistoria[index]),
               ),
-            );
+            ).then((value) => setState(() {
+              VistoriaUtil.saveAllVistorias(_vistoriasLocal);
+            }));
           },
           child: Padding(
             padding:

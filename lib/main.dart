@@ -1,3 +1,4 @@
+import 'package:ez_vistors/Pages/DetalheItemPage.dart';
 import 'package:ez_vistors/Pages/HomePage.dart';
 import 'package:ez_vistors/Pages/LoginPage.dart';
 import 'package:ez_vistors/Pages/VistoriasPage.dart';
@@ -18,6 +19,7 @@ void main(){
       '/vistorias': (context) => VistoriasPage(),
       '/criar': (context) => CriarPage(),
       '/sobre': (context) => SobrePage(),
+      '/DetalhesItem': (context) => DetalheItemPage(),
     },
   ));
 }

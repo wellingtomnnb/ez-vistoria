@@ -6,6 +6,7 @@ import 'package:ez_vistors/Pages/LoginPage.dart';
 import 'package:ez_vistors/Pages/SobrePage.dart';
 import 'package:ez_vistors/Pages/VistoriasPage.dart';
 import 'package:ez_vistors/Models/Vistorias.dart';
+import 'package:ez_vistors/Services/VistoriaUtil.dart';
 import 'package:ez_vistors/Theme/Cores.dart';
 import 'package:flutter/material.dart';
 
@@ -64,7 +65,8 @@ class _DadosdoImovelState extends State<DadosdoImovel> {
                   height: 75,
                   padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                   child: TextField(
-                    controller: cpdController, 
+                    controller: cpdController,
+                    keyboardType: TextInputType.number,
                     style: TextStyle(color: Cores.texto_branco),
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -112,6 +114,9 @@ class _DadosdoImovelState extends State<DadosdoImovel> {
                         //TODO - COLOCAR ROTINA DE GRAVAR VISTORIA AQUI
                         Imovel dadosimovel = Imovel(cpd: cpdController.text, descricao: descricaoController.text);
                         Vistoria vistoria = Vistoria(imovel: dadosimovel, comodos: []);
+
+                        VistoriaUtil.addVistoria(vistoria);
+
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
                               builder: (context) => ListComodoPage(vistoria: vistoria)));
                       },

@@ -3,6 +3,7 @@ import 'package:ez_vistors/Theme/Cores.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ez_vistors/Models/Vistorias.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class ItemPage extends StatefulWidget {
@@ -89,6 +90,7 @@ class _ItemPageState extends State<ItemPage> {
     setState(() {
       _comodo.itens.add(item);
       Navigator.pop(context);
+      _showToast(this.context, "${_novoItemController.text} foi adicionado(a)");
     });
   }
 
@@ -179,5 +181,16 @@ class _ItemPageState extends State<ItemPage> {
             ),
           ),
         ));
+  }
+
+  void _showToast(BuildContext context, String texto) {
+    Fluttertoast.showToast(
+        msg: texto,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Cores.laranja,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 }

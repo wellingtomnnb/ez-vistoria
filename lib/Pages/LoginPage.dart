@@ -99,11 +99,18 @@ class _LoginPageState extends State<LoginPage> {
   _login() {
     //TODO - COLOCAR REGRA DE LOGIN VIA BANCO DE DADOS AQUI
 
-    if (nameController.text == "admin" && passwordController.text == "admin") {
+    bool testeEnabel = true; //true remove login para facilidtar os testes
+
+    if(testeEnabel){
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
-    } else {
-      _showToast(context, Colors.red);
+    }else{
+      if ((nameController.text == "admin" && passwordController.text == "admin")) {
+        Navigator.of(context)
+            .pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+      } else {
+        _showToast(context, Colors.red);
+      }
     }
   }
 

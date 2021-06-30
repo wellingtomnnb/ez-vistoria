@@ -1,4 +1,9 @@
+import 'package:camera_camera/camera_camera.dart';
+import 'package:ez_vistors/Services/VistoriaUtil.dart';
 import 'package:flutter/material.dart';
+import 'dart:io';
+import 'package:ez_vistors/db/dbprovide.dart';
+import 'package:sqflite/sqflite.dart';
 
 class Vistorias {
   List<Vistoria> vistoria;
@@ -20,6 +25,12 @@ class Vistorias {
       data['vistoria'] = this.vistoria.map((v) => v.toJson()).toList();
     }
     return data;
+  }
+
+
+  getAll() async{
+    var v = await VistoriaUtil.getVistorias();
+    this.vistoria = v.vistoria;
   }
 }
 

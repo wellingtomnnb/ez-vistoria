@@ -1,8 +1,16 @@
+import 'package:camera_camera/camera_camera.dart';
+import 'package:ez_vistors/Pages/PreviewImagePage.dart';
 import 'package:ez_vistors/Theme/Cores.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ez_vistors/Models/Vistorias.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gallery_saver/gallery_saver.dart';
+import 'dart:io';
+import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 
 class DetalheItemPage extends StatefulWidget {
   final Itens item;
@@ -17,6 +25,7 @@ class DetalheItemPage extends StatefulWidget {
 class _DetalheItemPageState extends State<DetalheItemPage> {
   Itens _item;
   Vistoria _vistoria;
+  File file;
 
   TextEditingController _materialController = TextEditingController();
   TextEditingController _condicaoController = TextEditingController();
@@ -27,6 +36,29 @@ class _DetalheItemPageState extends State<DetalheItemPage> {
     super.initState();
     _item = widget.item;
     _vistoria = widget.vistoria;
+
+    if(_item.fotos.length >= 1){
+      var zero = _item.fotos[0].file;
+      if (zero == null) {
+        _item.fotos.removeAt(0);
+      }
+    }
+
+    _condicaoController.text = _item.condicao;
+    _materialController.text = _item.material;
+    _observacaoController.text = _item.observacao;
+  }
+
+  previewImage(file) async {
+    if (file != null) {
+      var isExist = await file.exists();
+      if(isExist){
+        setState(() {
+          _item.fotos.add(Fotos(file: file.path));
+        });
+        _showToast(this.context, "Arquivo numero ${_item.fotos.length}, salvo com sucesso!");
+      }
+    }
   }
 
   @override
@@ -46,7 +78,12 @@ class _DetalheItemPageState extends State<DetalheItemPage> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            //TODO - ADICIONAR ACAO PARA ABRIR A CAMERA E TIRAR FOTO
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) =>
+                      CameraCamera(onFile: (file) => previewImage(file)),
+                ));
           },
           backgroundColor: Cores.laranja,
           child: Icon(Icons.add_a_photo),
@@ -54,15 +91,38 @@ class _DetalheItemPageState extends State<DetalheItemPage> {
         body: TabBarView(
           children: [
             _formContainer(),
-            _listFotosContainer(),
+            _listFotosContainer(_item.fotos),
           ],
         ),
       ),
     );
   }
 
+  bool _validate(){
+    bool hasError = false;
+
+    if(_condicaoController.text == null){
+      _showToast(this.context, "Prencha o campo condição");
+      hasError = true;
+    }
+
+    if(_materialController.text == null){
+      _showToast(this.context, "Prencha o campo material");
+      hasError = true;
+    }
+
+    return hasError;
+  }
   _saveData() {
-    //TODO - Colocar rotina de salvar aqui
+    if(!_validate()){
+      setState(() {
+        _item.condicao = _condicaoController.text;
+        _item.material = _materialController.text;
+        _item.observacao = _observacaoController.text;
+
+        _showToast(this.context, "Item salvo com sucesso!");
+      });
+    }
   }
 
   _formContainer() {
@@ -70,7 +130,7 @@ class _DetalheItemPageState extends State<DetalheItemPage> {
       child: Container(
       padding: EdgeInsets.only(top: 10, right: 20, bottom: 10, left: 20),
       color: Cores.cinza_fundo,
-      child: Column(
+      child: ListView(
         children: <Widget>[
           TextField(
             controller: _materialController,
@@ -123,26 +183,45 @@ class _DetalheItemPageState extends State<DetalheItemPage> {
     ),);
   }
 
-  _listFotosContainer() {
+  _listFotosContainer(List<Fotos> modelo) {
+
     return Container(
       padding: const EdgeInsets.all(10),
       color: Cores.cinza_fundo,
       child: new StaggeredGridView.countBuilder(
         crossAxisCount: 4,
-        itemCount: 20,
+        itemCount: _item.fotos.length,
         itemBuilder: (BuildContext context, int index) => new Container(
-            color: Colors.green,
-            child: new Center(
-              child: new CircleAvatar(
-                backgroundColor: Colors.white,
-                child: new Text('$index'),
-              ),
-            )),
+          color: Cores.laranja,
+          child: InkWell(
+            child: Image.file(File(modelo[index].file), fit: BoxFit.cover),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      PreviewImagePage(item: _item, indice: index),
+                ),
+              ).then((value) => setState(() {}));
+            },
+          ),
+        ),
         staggeredTileBuilder: (int index) =>
-        new StaggeredTile.count(2, index.isEven ? 2 : 1),
+            new StaggeredTile.count(2, index.isEven ? 2 : 1),
         mainAxisSpacing: 4.0,
         crossAxisSpacing: 4.0,
       ),
     );
+  }
+
+  void _showToast(BuildContext context, String texto) {
+    Fluttertoast.showToast(
+        msg: texto,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.TOP,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Cores.laranja,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 }

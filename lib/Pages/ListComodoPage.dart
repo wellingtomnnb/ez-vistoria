@@ -3,6 +3,7 @@ import 'package:ez_vistors/Pages/ItemPage.dart';
 import 'package:ez_vistors/Theme/Cores.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 
@@ -35,6 +36,30 @@ class _ListComodoPageState extends State<ListComodoPage> {
         appBar: AppBar(
           title: Text('Vistoria CPD: ' + _vistoria.imovel.cpd),
           backgroundColor: Cores.laranja,
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Colors.white,
+          currentIndex: 0, // this will be set when a new tab is tapped
+          onTap: (int index){
+            switch (index) {
+              case 0:
+                 //TODO - COLOCAR ROTINA ENVIO PARA O SERDIRO DQUI
+                break;
+              case 1:
+
+                break;
+            }
+          },
+          items: [
+            BottomNavigationBarItem(
+              icon: new Icon(Icons.save,color: Cores.laranja),
+              title: new Text('Salvar',style: TextStyle(color: Cores.laranja),),
+            ),
+            BottomNavigationBarItem(
+              icon: new Icon(Icons.picture_as_pdf_outlined),
+              title: new Text('Baixar'),
+            )
+          ],
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -90,6 +115,7 @@ class _ListComodoPageState extends State<ListComodoPage> {
       setState(() {
         _vistoria.comodos.add(comodo);
         Navigator.pop(context);
+        _showToast(this.context, "${_novoComodoController.text} foi adicionado(a)");
       });
     }
   _cardVistoria() {
@@ -178,5 +204,16 @@ class _ListComodoPageState extends State<ListComodoPage> {
             ),
           ),
         ));
+  }
+
+  void _showToast(BuildContext context, String texto) {
+    Fluttertoast.showToast(
+        msg: texto,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Cores.laranja,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 }
