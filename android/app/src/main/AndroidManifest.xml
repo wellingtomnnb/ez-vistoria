@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ez_vistors">
    <application
-        android:label="ez_vistors"
+        android:label="Ez Vistors"
         android:icon="@mipmap/logo">
         <activity
             android:name=".MainActivity"
