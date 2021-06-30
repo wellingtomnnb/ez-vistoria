@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:ez_vistors/Theme/Cores.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,8 +26,8 @@ class SobrePage extends StatelessWidget {
                 ),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Color.fromARGB(255, 241, 109, 80),),
-              ),
+                  color: Cores.laranja),
+                ),
 
               Padding(padding: EdgeInsets.all(10),
                   child: Text('Ez Vistorias', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30))
@@ -34,7 +35,7 @@ class SobrePage extends StatelessWidget {
               Padding(padding: EdgeInsets.all(10),
                   child: Text('A solução completa para simplificar suas vistorias de imóveis', style: TextStyle(fontSize: 20), textAlign: TextAlign.center)
               ),
-              Padding(padding: EdgeInsets.only(top: 150), child: Text('Desenvolvido por:', style: TextStyle(fontSize: 17))),
+              Padding(padding: EdgeInsets.only(top: 75), child: Text('Desenvolvido por:', style: TextStyle(fontSize: 17))),
 
               Column(
                 children: [
@@ -45,7 +46,7 @@ class SobrePage extends StatelessWidget {
                           width: 20,
                           height: 20,
                           child: CircleAvatar(
-                            backgroundImage: NetworkImage('https://scontent.fvix12-1.fna.fbcdn.net/v/t1.18169-9/15337666_1236035276462738_7325961080853360953_n.jpg?_nc_cat=108&ccb=1-3&_nc_sid=dbeb18&_nc_ohc=eca5rDnS7NUAX_bUMxI&_nc_ht=scontent.fvix12-1.fna&oh=3fa47831c7d0842acd9d8cc160e70081&oe=60CD3749'),
+                            backgroundImage: NetworkImage('https://dgmattos.com.br/img/profile.jpg'),
                           ),
                         ),
                         Padding(padding: EdgeInsets.all(10),
